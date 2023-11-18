@@ -65,6 +65,7 @@ dependencies {
     implementation(libs.okhttp3.logging.interceptor)
     implementation(libs.retrofit2.converter.gson)
     implementation(libs.retrofit2)
+    implementation(libs.dataStore)
 
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.messaging.ktx)

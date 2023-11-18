@@ -77,6 +77,11 @@ object FarmHubTheme {
     )
 
     @Stable
+    val background = ColorContainer(
+        light = FarmHubColors.BrightGrey,
+    )
+
+    @Stable
     val tabSelectedColor = ColorContainer(
         light = FarmHubColors.Celadon,
     )

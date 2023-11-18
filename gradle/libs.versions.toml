@@ -41,6 +41,7 @@ kotlinx-collections-immutable = { group = "org.jetbrains.kotlinx", name = "kotli
 
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version = "32.6.0" }
 firebase-messaging-ktx = { group = "com.google.firebase", name = "firebase-messaging-ktx" }
+dataStore = { group = "androidx.datastore", name = "datastore-preferences", version = "1.0.0" }
 
 [plugins]
 com-android-application = { id = "com.android.application", version.ref = "agp" }
