@@ -1,4 +1,4 @@
-package ru.rshbdigital.farmhub.ui.theme
+package ru.rshbdigital.farmhub.main.theme
 
 import androidx.compose.ui.graphics.Color
 

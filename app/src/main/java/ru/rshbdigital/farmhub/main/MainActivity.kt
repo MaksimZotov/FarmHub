@@ -1,4 +1,4 @@
-package ru.rshbdigital.farmhub
+package ru.rshbdigital.farmhub.main
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -10,7 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import ru.rshbdigital.farmhub.ui.theme.FarmHubTheme
+import ru.rshbdigital.farmhub.main.theme.FarmHubTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

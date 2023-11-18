@@ -1,4 +1,4 @@
-package ru.rshbdigital.farmhub.ui.theme
+package ru.rshbdigital.farmhub.main.theme
 
 import android.app.Activity
 import android.os.Build

@@ -6,12 +6,12 @@ plugins {
 
 android {
     namespace = "ru.rshbdigital.farmhub"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "ru.rshbdigital.farmhub"
         minSdk = 21
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -59,6 +59,11 @@ dependencies {
     implementation(libs.ui.graphics)
     implementation(libs.ui.tooling.preview)
     implementation(libs.material3)
+
+    //implementation(libs.hilt.android)
+    //implementation(libs.hilt.android.compiler)
+    //implementation(libs.hilt.navigation.compose)
+
     debugImplementation(libs.ui.tooling)
     debugImplementation(libs.ui.test.manifest)
 }
