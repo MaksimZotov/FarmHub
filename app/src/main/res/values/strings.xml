@@ -5,4 +5,10 @@
     <string name="status_paused">Приостановлено</string>
     <string name="status_machine_inspection">На&#160;осмотре</string>
     <string name="status_closed">Закрыто</string>
+
+    <string name="notification_explanation">Без разрешения приложение не сможет присылать уведомления об изменениях статуса</string>
+
+    <string name="default_notification_title">Уведомление</string>
+    <string name="default_notification_channel_id" translatable="false">farmhub_fcm_default_channel</string>
+    <string name="default_notification_channel_title" translatable="false">Уведомления об изменениях статуса</string>
 </resources>
