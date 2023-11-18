@@ -4,11 +4,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NamedNavArgument
 import androidx.navigation.navArgument
 import ru.rshbdigital.farmhub.core.routes.COUNTER_PARAM
 import ru.rshbdigital.farmhub.core.routes.Routes
-import ru.rshbdigital.farmhub.main.navigation.NavRoute
+import ru.rshbdigital.farmhub.core.navigation.NavRoute
 
 object CounterNavRoute : NavRoute<CounterViewModel> {
 
@@ -25,7 +24,8 @@ object CounterNavRoute : NavRoute<CounterViewModel> {
         SomeScreen(
             uiState = uiState,
             onClickIncrease = viewModel::onClickIncrease,
-            onClickNext = viewModel::onClickNext
+            onClickNext = viewModel::onClickNext,
+            onClickRequests = viewModel::onClickRequests
         )
     }
 

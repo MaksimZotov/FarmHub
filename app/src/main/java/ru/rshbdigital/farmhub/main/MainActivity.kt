@@ -20,13 +20,20 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import dagger.hilt.android.AndroidEntryPoint
 import ru.rshbdigital.farmhub.R
+import ru.rshbdigital.farmhub.client.offline.OfflineRepository
 import ru.rshbdigital.farmhub.core.routes.COUNTER_PARAM
 import ru.rshbdigital.farmhub.core.routes.Routes
 import ru.rshbdigital.farmhub.feature.counter.CounterNavRoute
-import ru.rshbdigital.farmhub.main.theme.FarmHubTheme
+import ru.rshbdigital.farmhub.core.design.FarmHubTheme
+import ru.rshbdigital.farmhub.core.ui.offline.OfflineListener
+import ru.rshbdigital.farmhub.feature.requests.RequestsNavRoute
+import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity : ComponentActivity() {
+class MainActivity : ComponentActivity(), OfflineListener {
+
+    @Inject
+    lateinit var offlineRepository: OfflineRepository
 
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission(),
@@ -60,6 +67,7 @@ class MainActivity : ComponentActivity() {
                                 navArgument(COUNTER_PARAM) { defaultValue = 0 }
                             )
                         )
+                        RequestsNavRoute.composable(this, navController)
                     }
                 }
             }
@@ -67,6 +75,8 @@ class MainActivity : ComponentActivity() {
         createNotificationChannel()
         askNotificationPermission()
     }
+
+    override val isOffline get() = offlineRepository.isOffline
 
     private fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

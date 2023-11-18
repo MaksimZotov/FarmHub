@@ -10,6 +10,8 @@ hilt-navigation-compose = "1.1.0"
 retrofit = "2.9.0"
 okhttpLogging = "4.12.0"
 gson = "2.10.1"
+room = "2.6.0"
+timber = "5.0.1"
 
 [libraries]
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
@@ -28,8 +30,12 @@ retrofit2 = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofi
 retrofit2-converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 hilt-android  = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
-hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt"  }
-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hilt-navigation-compose"  }
+hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
+hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hilt-navigation-compose" }
+room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
+timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }
 
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version = "32.6.0" }
 firebase-messaging-ktx = { group = "com.google.firebase", name = "firebase-messaging-ktx" }
