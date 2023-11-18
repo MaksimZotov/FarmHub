@@ -77,6 +77,11 @@ object FarmHubTheme {
     )
 
     @Stable
+    val tabSelectedColor = ColorContainer(
+        light = FarmHubColors.Celadon,
+    )
+
+    @Stable
     val taskSnippetSecondaryInfo = ColorContainer(
         light = FarmHubColors.SilverFoil,
     )

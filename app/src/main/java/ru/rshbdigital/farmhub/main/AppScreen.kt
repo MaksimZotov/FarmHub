@@ -1,25 +1,23 @@
 package ru.rshbdigital.farmhub.main
 
+import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.res.vectorResource
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
@@ -29,6 +27,7 @@ import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import ru.rshbdigital.farmhub.R
 import ru.rshbdigital.farmhub.core.design.FarmHubTheme
+import ru.rshbdigital.farmhub.core.design.Typography
 import ru.rshbdigital.farmhub.core.model.User
 import ru.rshbdigital.farmhub.core.routes.COUNTER_PARAM
 import ru.rshbdigital.farmhub.core.routes.Routes
@@ -37,18 +36,26 @@ import ru.rshbdigital.farmhub.feature.requests.RequestsNavRoute
 
 enum class Tab(
     @StringRes val tabNameStringId: Int,
-    val route: String
+    @DrawableRes val tabIcon: Int,
+    @DrawableRes val tabIconSelected: Int = tabIcon,
+    val route: String,
 ) {
     TASKS(
         tabNameStringId = R.string.tasks,
+        tabIcon = R.drawable.ic_task_list_24,
+        tabIconSelected = R.drawable.ic_task_list_filled_24,
         route = Routes.TASKS_ROUTE
     ),
     REPORTS(
         tabNameStringId = R.string.reports,
+        tabIcon = R.drawable.ic_reports_24,
+        tabIconSelected = R.drawable.ic_reports_filled_24,
         route = Routes.REPORTS_ROUTE
     ),
     PROFILE(
         tabNameStringId = R.string.profile,
+        tabIcon = R.drawable.ic_profile_24,
+        tabIconSelected = R.drawable.ic_profile_filled_24,
         route = Routes.PROFILE_ROUTE
     )
 }
@@ -89,37 +96,36 @@ fun AppScreen(
         ) {
             Scaffold(
                 bottomBar = {
-                    Row {
-                        val navBackStackEntry by navController.currentBackStackEntryAsState()
-                        val currentDestination = navBackStackEntry?.destination
-                        tabs.map { tab ->
-                            Box(
-                                modifier = Modifier
-                                    .height(64.dp)
-                                    .weight(1f)
-                                    .background(
-                                        if (currentDestination?.hierarchy?.any { it.route == tab.route } == true) {
-                                            Color.Gray
-                                        } else {
-                                            Color.DarkGray
-                                        }
+                    NavigationBar(
+                        containerColor = FarmHubTheme.surface.get(),
+                    ) {
+                        tabs.forEach { tab ->
+                            val navBackStackEntry by navController.currentBackStackEntryAsState()
+                            val currentDestination = navBackStackEntry?.destination
+                            val isSelected = currentDestination?.hierarchy?.any { it.route == tab.route } == true
+                            NavigationBarItem(
+                                colors = NavigationBarItemDefaults.colors(indicatorColor = FarmHubTheme.tabSelectedColor.get()),
+                                icon = {
+                                    val iconResId = if (isSelected) tab.tabIconSelected else tab.tabIcon
+                                    Icon(imageVector = ImageVector.vectorResource(id = iconResId), contentDescription = null)
+                                },
+                                selected = isSelected,
+                                label = {
+                                    Text(
+                                        text = stringResource(tab.tabNameStringId),
+                                        style = Typography.bottomNavigation
                                     )
-                                    .clickable {
-                                        navController.navigate(tab.route) {
-                                            popUpTo(navController.graph.findStartDestination().id) {
-                                                saveState = true
-                                            }
-                                            launchSingleTop = true
-                                            restoreState = true
+                                },
+                                onClick = {
+                                    navController.navigate(tab.route) {
+                                        popUpTo(navController.graph.findStartDestination().id) {
+                                            saveState = true
                                         }
+                                        launchSingleTop = true
+                                        restoreState = true
                                     }
-                            ) {
-                                Text(
-                                    modifier = Modifier.align(Alignment.Center),
-                                    text = stringResource(tab.tabNameStringId),
-                                    fontSize = 20.sp
-                                )
-                            }
+                                }
+                            )
                         }
                     }
                 }
