@@ -34,6 +34,7 @@ import ru.rshbdigital.farmhub.core.routes.COUNTER_PARAM
 import ru.rshbdigital.farmhub.core.routes.Routes
 import ru.rshbdigital.farmhub.feature.counter.CounterNavRoute
 import ru.rshbdigital.farmhub.feature.requests.RequestsNavRoute
+import ru.rshbdigital.farmhub.feature.tasks.TasksNavRoute
 
 enum class Tab(
     @StringRes val tabNameStringId: Int,
@@ -41,15 +42,15 @@ enum class Tab(
 ) {
     TASKS(
         tabNameStringId = R.string.tasks,
-        route = Routes.TASKS_ROUTE
+        route = Routes.TAB_TASKS_ROUTE
     ),
     REPORTS(
         tabNameStringId = R.string.reports,
-        route = Routes.REPORTS_ROUTE
+        route = Routes.TAB_REPORTS_ROUTE
     ),
     PROFILE(
         tabNameStringId = R.string.profile,
-        route = Routes.PROFILE_ROUTE
+        route = Routes.TAB_PROFILE_ROUTE
     )
 }
 enum class TabsWrapper(val tabs: List<Tab>) {
@@ -132,6 +133,12 @@ fun AppScreen(
                     ) {
                         navigation(
                             route = Tab.TASKS.route,
+                            startDestination = Routes.TASKS_ROUTE
+                        ) {
+                            TasksNavRoute.composable(this, navController)
+                        }
+                        navigation(
+                            route = Tab.REPORTS.route,
                             startDestination = Routes.COUNTER_ROUTE
                         ) {
                             CounterNavRoute.composable(
@@ -141,12 +148,6 @@ fun AppScreen(
                                     navArgument(COUNTER_PARAM) { defaultValue = 0 }
                                 )
                             )
-                        }
-                        navigation(
-                            route = Tab.REPORTS.route,
-                            startDestination = Routes.REQUESTS_ROUTE
-                        ) {
-                            RequestsNavRoute.composable(this, navController)
                         }
                         navigation(
                             route = Tab.PROFILE.route,
