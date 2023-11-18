@@ -11,7 +11,7 @@ object FarmHubColors {
     val SilverFoil = Color(0xFFABB0B2)
     val Celadon = Color(0xFFAFE2B5)
     val EerieBlack = Color(0xFF1B1C1F)
-    val Gray = Color(0xFF7F7F83)
+    val Grey = Color(0xFF7F7F83)
     val CongoPink = Color(0xFFFF8080)
     val Rajah = Color(0xFFFFA05B)
     val NaplesYellow = Color(0xFFFFD25E)
