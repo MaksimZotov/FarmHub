@@ -12,8 +12,8 @@ import androidx.core.app.NotificationCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.google.firebase.messaging.RemoteMessage.Notification
+import ru.rshbdigital.farmhub.core.util.nullIfBlank
 import ru.rshbdigital.farmhub.main.MainActivity
-import ru.rshbdigital.farmhub.util.nullIfBlank
 
 class FarmNotificationService : FirebaseMessagingService() {
 

@@ -8,11 +8,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import ru.rshbdigital.farmhub.core.design.FarmHubTheme
+import ru.rshbdigital.farmhub.core.design.Typography
 import ru.rshbdigital.farmhub.core.ui.model.TaskBadgeItem
 import ru.rshbdigital.farmhub.core.ui.model.getString
 import ru.rshbdigital.farmhub.main.theme.DimenTokens
-import ru.rshbdigital.farmhub.main.theme.FarmHubTheme
-import ru.rshbdigital.farmhub.main.theme.Typography
 
 @Composable
 fun TaskBadge(badge: TaskBadgeItem) {

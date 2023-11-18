@@ -2,8 +2,8 @@ package ru.rshbdigital.farmhub.core.ui.model
 
 import androidx.compose.runtime.Immutable
 import ru.rshbdigital.farmhub.R
-import ru.rshbdigital.farmhub.main.theme.ColorContainer
-import ru.rshbdigital.farmhub.main.theme.FarmHubColors
+import ru.rshbdigital.farmhub.core.design.ColorContainer
+import ru.rshbdigital.farmhub.core.design.FarmHubColors
 
 @Immutable
 class TaskBadgeItem private constructor(
