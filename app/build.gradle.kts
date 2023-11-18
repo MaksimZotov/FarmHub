@@ -60,6 +60,7 @@ dependencies {
     implementation(libs.ui.graphics)
     implementation(libs.ui.tooling.preview)
     implementation(libs.material3)
+
     implementation(libs.gson)
     implementation(libs.okhttp3.logging.interceptor)
     implementation(libs.retrofit2.converter.gson)
@@ -79,6 +80,8 @@ dependencies {
     kapt(libs.room.compiler)
 
     implementation(libs.timber)
+
+    implementation(libs.kotlinx.collections.immutable)
 
     debugImplementation(libs.ui.tooling)
     debugImplementation(libs.ui.test.manifest)

@@ -44,19 +44,19 @@ enum class Tab(
         tabNameStringId = R.string.tasks,
         tabIcon = R.drawable.ic_task_list_24,
         tabIconSelected = R.drawable.ic_task_list_filled_24,
-        route = Routes.TASKS_ROUTE
+        route = Routes.TAB_TASKS_ROUTE
     ),
     REPORTS(
         tabNameStringId = R.string.reports,
         tabIcon = R.drawable.ic_reports_24,
         tabIconSelected = R.drawable.ic_reports_filled_24,
-        route = Routes.REPORTS_ROUTE
+        route = Routes.TAB_REPORTS_ROUTE
     ),
     PROFILE(
         tabNameStringId = R.string.profile,
         tabIcon = R.drawable.ic_profile_24,
         tabIconSelected = R.drawable.ic_profile_filled_24,
-        route = Routes.PROFILE_ROUTE
+        route = Routes.TAB_PROFILE_ROUTE
     )
 }
 enum class TabsWrapper(val tabs: List<Tab>) {
@@ -137,7 +137,7 @@ fun AppScreen(
                         modifier = Modifier.padding(innerPadding)
                     ) {
                         navigation(
-                            route = Tab.TASKS.route,
+                            route = Tab.REPORTS.route,
                             startDestination = Routes.COUNTER_ROUTE
                         ) {
                             CounterNavRoute.composable(
@@ -147,12 +147,6 @@ fun AppScreen(
                                     navArgument(COUNTER_PARAM) { defaultValue = 0 }
                                 )
                             )
-                        }
-                        navigation(
-                            route = Tab.REPORTS.route,
-                            startDestination = Routes.REQUESTS_ROUTE
-                        ) {
-                            RequestsNavRoute.composable(this, navController)
                         }
                         navigation(
                             route = Tab.PROFILE.route,
