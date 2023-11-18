@@ -1,3 +1,3 @@
 package ru.rshbdigital.farmhub.core.routes
 
-const val SOME_PARAM = "SOME_PARAM"
+const val COUNTER_PARAM = "COUNTER_PARAM"
