@@ -16,4 +16,9 @@
     <string name="tasks">Задачи</string>
     <string name="reports">Отчёты</string>
     <string name="profile">Профиль</string>
+
+    <string name="seeding">Посев</string>
+    <string name="protection">Защита растений</string>
+    <string name="harvesting">Уборка урожая</string>
+    <string name="soil_preparation">Обработка почвы</string>
 </resources>

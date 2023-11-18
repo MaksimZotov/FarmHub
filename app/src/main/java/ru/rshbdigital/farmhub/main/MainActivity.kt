@@ -17,7 +17,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import ru.rshbdigital.farmhub.R
 import ru.rshbdigital.farmhub.client.login.LoginRepository
 import ru.rshbdigital.farmhub.client.offline.OfflineRepository
-import ru.rshbdigital.farmhub.core.ui.offline.OfflineListener
+import ru.rshbdigital.farmhub.core.ui.components.OfflineListener
 import javax.inject.Inject
 
 @AndroidEntryPoint

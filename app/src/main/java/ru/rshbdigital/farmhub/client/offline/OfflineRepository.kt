@@ -33,7 +33,7 @@ class OfflineRepository @Inject constructor(
 ) {
 
     companion object {
-        const val PING_DELAY_MS = 30_000L
+        const val PING_DELAY_MS = 10_000L
     }
 
     private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())

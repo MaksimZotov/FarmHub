@@ -1,4 +1,4 @@
-package ru.rshbdigital.farmhub.core.ui.offline
+package ru.rshbdigital.farmhub.core.ui.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Text
