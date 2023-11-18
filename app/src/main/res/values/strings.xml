@@ -11,4 +11,8 @@
     <string name="default_notification_title">Уведомление</string>
     <string name="default_notification_channel_id" translatable="false">farmhub_fcm_default_channel</string>
     <string name="default_notification_channel_title" translatable="false">Уведомления об изменениях статуса</string>
+
+    <string name="tasks">Задачи</string>
+    <string name="reports">Отчёты</string>
+    <string name="profile">Профиль</string>
 </resources>
