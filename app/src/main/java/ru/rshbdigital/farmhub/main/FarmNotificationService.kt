@@ -1,4 +1,4 @@
-package ru.rshbdigital.farmhub
+package ru.rshbdigital.farmhub.main
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -12,8 +12,8 @@ import androidx.core.app.NotificationCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.google.firebase.messaging.RemoteMessage.Notification
+import ru.rshbdigital.farmhub.R
 import ru.rshbdigital.farmhub.core.util.nullIfBlank
-import ru.rshbdigital.farmhub.main.MainActivity
 
 class FarmNotificationService : FirebaseMessagingService() {
 

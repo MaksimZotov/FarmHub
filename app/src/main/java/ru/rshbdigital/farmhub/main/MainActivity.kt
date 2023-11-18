@@ -10,23 +10,14 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.ui.Modifier
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.core.content.ContextCompat
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
 import dagger.hilt.android.AndroidEntryPoint
 import ru.rshbdigital.farmhub.R
+import ru.rshbdigital.farmhub.client.login.LoginRepository
 import ru.rshbdigital.farmhub.client.offline.OfflineRepository
-import ru.rshbdigital.farmhub.core.routes.COUNTER_PARAM
-import ru.rshbdigital.farmhub.core.routes.Routes
-import ru.rshbdigital.farmhub.feature.counter.CounterNavRoute
-import ru.rshbdigital.farmhub.core.design.FarmHubTheme
 import ru.rshbdigital.farmhub.core.ui.offline.OfflineListener
-import ru.rshbdigital.farmhub.feature.requests.RequestsNavRoute
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -34,6 +25,9 @@ class MainActivity : ComponentActivity(), OfflineListener {
 
     @Inject
     lateinit var offlineRepository: OfflineRepository
+
+    @Inject
+    lateinit var loginRepository: LoginRepository
 
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission(),
@@ -50,27 +44,8 @@ class MainActivity : ComponentActivity(), OfflineListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val navController = rememberNavController()
-            FarmHubTheme {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    NavHost(
-                        navController = navController,
-                        startDestination = Routes.COUNTER_ROUTE
-                    ) {
-                        CounterNavRoute.composable(
-                            builder = this,
-                            navController = navController,
-                            customNavArguments = listOf(
-                                navArgument(COUNTER_PARAM) { defaultValue = 0 }
-                            )
-                        )
-                        RequestsNavRoute.composable(this, navController)
-                    }
-                }
-            }
+            val userRole by loginRepository.userRole.collectAsState()
+            AppScreen(userRole)
         }
         createNotificationChannel()
         askNotificationPermission()
