@@ -2,6 +2,7 @@
     <string name="app_name">FarmHub</string>
     <string name="status_pending">Ожидание</string>
     <string name="status_done">Выполнено</string>
+    <string name="status_in_progress">В работе</string>
     <string name="status_paused">Приостановлено</string>
     <string name="status_machine_inspection">На&#160;осмотре</string>
     <string name="status_closed">Закрыто</string>

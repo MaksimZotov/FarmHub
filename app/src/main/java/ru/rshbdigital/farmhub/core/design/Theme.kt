@@ -11,6 +11,7 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
@@ -41,6 +42,49 @@ data class ColorContainer(
 ) {
     @Composable
     fun get(darkTheme: Boolean = isSystemInDarkTheme()) = if (darkTheme) light else dark
+}
+
+object FarmHubTheme {
+
+    @Stable
+    val primary = ColorContainer(
+        light = FarmHubColors.MaastrichtBlue,
+    )
+
+    @Stable
+    val onPrimary = ColorContainer(
+        light = FarmHubColors.White,
+    )
+
+    @Stable
+    val secondary = ColorContainer(
+        light = FarmHubColors.ColumbiaBlue,
+    )
+
+    @Stable
+    val onSecondary = ColorContainer(
+        light = FarmHubColors.MaastrichtBlue,
+    )
+
+    @Stable
+    val surface = ColorContainer(
+        light = FarmHubColors.White,
+    )
+
+    @Stable
+    val onSurface = ColorContainer(
+        light = FarmHubColors.EerieBlack,
+    )
+
+    @Stable
+    val taskSnippetSecondaryInfo = ColorContainer(
+        light = FarmHubColors.SilverFoil,
+    )
+
+    @Stable
+    val taskSnippetTimeInfo = ColorContainer(
+        light = FarmHubColors.Emerald,
+    )
 }
 
 @Composable
