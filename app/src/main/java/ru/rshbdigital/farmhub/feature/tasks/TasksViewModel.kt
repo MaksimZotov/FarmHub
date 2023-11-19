@@ -29,7 +29,7 @@ class TasksViewModel @Inject constructor(
     override fun getInitialUiState() = TasksUiState.getInitial()
 
     override fun mapVmStateToUiState(vmState: TasksVmState) = TasksUiState(
-        tasks = vmState.tasks.map { task ->
+        tasks = vmState.tasks.filterByStatus().map { task ->
             TaskSnippetItem(
                 taskId = task.id,
                 isActive = task.status in listOf(
@@ -180,5 +180,18 @@ class TasksViewModel @Inject constructor(
                 isRefreshing = false
             )
         }
+    }
+
+    private fun List<Task>.filterByStatus(): List<Task> {
+        val comparator = Comparator<Task>  { o1, o2 ->
+            when {
+                o1.status == Task.Status.IN_PROGRESS && o2.status != Task.Status.IN_PROGRESS -> -1
+                o1.status != Task.Status.IN_PROGRESS && o2.status == Task.Status.IN_PROGRESS -> 1
+                o1.status == Task.Status.OPEN && o2.status != Task.Status.OPEN -> -1
+                o1.status != Task.Status.OPEN && o2.status == Task.Status.OPEN -> 1
+                else -> 0
+            }
+        }
+        return this.sortedWith(comparator)
     }
 }
