@@ -10,8 +10,9 @@ class AuthInterceptor(
 
     override fun intercept(chain: Interceptor.Chain): Response {
         val originalRequest = chain.request()
+        val token = authTokenStorage.currentAuthToken
         val request = originalRequest.newBuilder()
-            .header("Authorization", "Token ${authTokenStorage.currentAuthToken}")
+            .apply { if (!token.isNullOrBlank()) header("Authorization", "Token $token") }
             .build()
         return chain.proceed(request)
     }

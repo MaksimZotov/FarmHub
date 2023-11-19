@@ -8,7 +8,7 @@ import ru.rshbdigital.farmhub.core.api.model.NWTask
 
 interface NetworkApi {
 
-    @POST("rfid_auth")
+    @POST("rfid_auth/")
     suspend fun loginByRfid(@Body rfid: NWRfidRequest): NWRfidResponse
 
     suspend fun updateTask(task: NWTask): NWTask

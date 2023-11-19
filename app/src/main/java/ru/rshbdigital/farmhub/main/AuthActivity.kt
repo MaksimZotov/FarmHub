@@ -27,7 +27,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import ru.rshbdigital.farmhub.client.login.LoginRepository
 import ru.rshbdigital.farmhub.core.design.FarmHubTheme
@@ -49,8 +48,9 @@ class AuthActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         lifecycleScope.launch {
-            val isAuthorized = loginRepository.isAuthorized.first()
-            if (isAuthorized) startMainActivity()
+            loginRepository.isAuthorized.collect { isAuthorized ->
+                if (isAuthorized) startMainActivity()
+            }
         }
         setContent {
             FarmHubTheme {
@@ -128,18 +128,12 @@ class AuthActivity : ComponentActivity() {
         super.onNewIntent(intent)
         setIntent(intent)
         readFromIntent(intent)
-        if (NfcAdapter.ACTION_TAG_DISCOVERED == intent.action) {
-            val tag = intent.getParcelableExtra<Parcelable>(NfcAdapter.EXTRA_TAG) as Tag?
-            val tagId = tag?.id?.toHex()
-            tagId?.let { handleTagScanned(tagId) }
-        }
     }
 
     private fun handleTagScanned(tagId: String) {
         lifecycleScope.launch {
             try {
                 loginRepository.loginByRfid(tagId)
-                startMainActivity()
             } catch (e: Exception) {
                 Toast.makeText(this@AuthActivity, "Что-то пошло не так, попробуйте позже", Toast.LENGTH_LONG).show()
             }
