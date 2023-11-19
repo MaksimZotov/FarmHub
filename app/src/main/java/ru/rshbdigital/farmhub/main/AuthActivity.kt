@@ -14,6 +14,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.lifecycleScope
@@ -38,17 +41,8 @@ class AuthActivity : ComponentActivity() {
     private var nfcAdapter: NfcAdapter? = null
     private var pendingIntent: PendingIntent? = null
 
-    @Volatile
-    private var showAlertDialog = false
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        lifecycleScope.launch {
-            loginRepository.isAuthorized.collect { isAuthorized ->
-                showAlertDialog = !isAuthorized
-                if (isAuthorized) startMainActivity()
-            }
-        }
         setContent {
             FarmHubTheme {
                 Box(
@@ -57,12 +51,18 @@ class AuthActivity : ComponentActivity() {
                         .background(FarmHubTheme.background.get()),
                     contentAlignment = Alignment.Center,
                 ) {
+                    val isAuthorized by loginRepository.isAuthorized.collectAsState(initial = null)
+                    LaunchedEffect(isAuthorized) {
+                        if (isAuthorized == true) {
+                            startMainActivity()
+                        }
+                    }
                     Text(
                         text = "Загружаем данные...",
                         style = Typography.body1,
                         color = FarmHubTheme.primary.get().copy(alpha = 0.6f),
                     )
-                    if (showAlertDialog) {
+                    if (isAuthorized == false) {
                         AlertDialog(
                             dialog = AlertDialogItem(
                                 title = TextItem.Simple("Авторизация"),
