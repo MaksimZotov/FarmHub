@@ -23,6 +23,7 @@ import ru.rshbdigital.farmhub.core.design.FarmHubTheme
 import ru.rshbdigital.farmhub.core.ui.components.AlertDialog
 import ru.rshbdigital.farmhub.core.ui.model.AlertDialogItem
 import ru.rshbdigital.farmhub.core.ui.model.Text
+import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -102,6 +103,7 @@ class AuthActivity : ComponentActivity() {
             try {
                 loginRepository.loginByRfid(tagId)
             } catch (e: Exception) {
+                Timber.e(e)
                 Toast.makeText(this@AuthActivity, "Что-то пошло не так, попробуйте позже", Toast.LENGTH_LONG).show()
             }
         }

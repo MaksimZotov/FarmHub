@@ -1,11 +1,14 @@
 package ru.rshbdigital.farmhub.feature.tasks
 
+import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import ru.rshbdigital.farmhub.core.routes.Routes
 import ru.rshbdigital.farmhub.core.navigation.NavRoute
+import ru.rshbdigital.farmhub.core.util.collectAsEffect
 
 object TasksNavRoute : NavRoute<TasksViewModel> {
 
@@ -22,5 +25,9 @@ object TasksNavRoute : NavRoute<TasksViewModel> {
             primaryButtonClick = viewModel::primaryButtonClick,
             secondaryButtonClick = viewModel::secondaryButtonClick
         )
+        val context = LocalContext.current
+        viewModel.errorMessage.collectAsEffect { message ->
+            Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+        }
     }
 }

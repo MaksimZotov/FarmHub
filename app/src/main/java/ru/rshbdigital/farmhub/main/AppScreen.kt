@@ -169,6 +169,12 @@ fun AppScreen(
                     ) {
                         navigation(
                             route = Tab.TASKS.route,
+                            startDestination = Routes.TASKS_ROUTE
+                        ) {
+                            TasksNavRoute.composable(this, navController)
+                        }
+                        navigation(
+                            route = Tab.PROFILE.route,
                             startDestination = Routes.COUNTER_ROUTE
                         ) {
                             CounterNavRoute.composable(
@@ -178,11 +184,6 @@ fun AppScreen(
                                     navArgument(COUNTER_PARAM) { defaultValue = 0 }
                                 )
                             )
-                        }
-                        navigation(
-                            route = Tab.PROFILE.route,
-                            startDestination = Routes.REQUESTS_ROUTE
-                        ) {
                             RequestsNavRoute.composable(this, navController)
                         }
                     }

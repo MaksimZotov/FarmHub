@@ -4,8 +4,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -33,6 +35,9 @@ abstract class BaseViewModel<VM: VmState, UI: UiState>(
         )
     }
 
+    private val _errorMessage = MutableSharedFlow<String>(extraBufferCapacity = 1)
+    val errorMessage = _errorMessage.asSharedFlow()
+
     protected val state get() = vmState.value
 
     protected fun updateState(copy: (VM) -> VM) {
@@ -53,6 +58,6 @@ abstract class BaseViewModel<VM: VmState, UI: UiState>(
     }
 
     protected open fun handleError(exception: Exception?) {
-
+        _errorMessage.tryEmit("Произошла ошибка")
     }
 }
