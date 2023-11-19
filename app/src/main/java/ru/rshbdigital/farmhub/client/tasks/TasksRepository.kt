@@ -20,6 +20,7 @@ class TasksRepository @Inject constructor(
 
     suspend fun getTasks(page: Int): PaginationList<Task> {
         return try {
+            offlineRepository.trySendAllRequests()
             val tasks = tasksNetworkDataSource
                 .getTasks(page)
                 .toDomain(TaskConverter::fromNetwork)
