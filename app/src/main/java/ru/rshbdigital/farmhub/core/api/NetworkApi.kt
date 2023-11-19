@@ -3,7 +3,6 @@ package ru.rshbdigital.farmhub.core.api
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
-import retrofit2.http.PATCH
 import retrofit2.http.PUT
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -27,7 +26,7 @@ interface NetworkApi {
         @Query("page") page: Int
     ): NWPaginationList<NWTask>
 
-    @PATCH("task/{id}/")
+    @PUT("task/{id}/")
     suspend fun updateTask(
         @Path("id") id: String,
         @Body request: UpdateTaskRequest

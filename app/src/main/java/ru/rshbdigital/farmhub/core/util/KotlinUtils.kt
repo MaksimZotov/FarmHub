@@ -55,3 +55,11 @@ inline fun <A, B, C, D, E, F, G, H, R> let(first: A?, second: B?, third: C?, fou
         null
     }
 }
+
+inline fun <A, B, C, D, E, F, G, H, I, R> let(first: A?, second: B?, third: C?, fourth: D?, fifth: E?, sixth: F?, seventh: G?, eighth: H?, ninth: I?, block: (A, B, C, D, E, F, G, H, I) -> R): R? {
+    return if (first != null && second != null && third != null && fourth != null && fifth != null && sixth != null && seventh != null && eighth != null && ninth != null) {
+        block(first, second, third, fourth, fifth, sixth, seventh, eighth, ninth)
+    } else {
+        null
+    }
+}
