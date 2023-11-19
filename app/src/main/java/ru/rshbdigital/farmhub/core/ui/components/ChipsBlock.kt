@@ -16,6 +16,7 @@ import ru.rshbdigital.farmhub.main.theme.DimenTokens
 @Composable
 fun ChipsBlock(
     chips: List<ChipItem>,
+    onChipClicked: (index: Int) -> Unit,
 ) {
     LazyRow(
         modifier = Modifier.fillMaxWidth(),
@@ -23,7 +24,7 @@ fun ChipsBlock(
         contentPadding = PaddingValues(horizontal = DimenTokens.x4, vertical = DimenTokens.x2),
     ) {
         items(items = chips) { chip ->
-            TaskFilterChip(chip = chip)
+            TaskFilterChip(chip = chip, onChipClicked = { onChipClicked(chip.id) })
         }
     }
 }
@@ -35,18 +36,22 @@ private fun ChipsBlockPreview() {
         ChipsBlock(
             chips = listOf(
                 ChipItem(
+                    id = 1,
                     text = Text.Simple("Текущие"),
                     isSelected = false,
                 ),
                 ChipItem(
+                    id = 2,
                     text = Text.Simple("Планируемые"),
                     isSelected = true,
                 ),
                 ChipItem(
+                    id = 3,
                     text = Text.Simple("Завершенные"),
                     isSelected = false,
                 )
-            )
+            ),
+            onChipClicked = {},
         )
     }
 }

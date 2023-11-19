@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -23,15 +22,16 @@ fun MainToolbar(item: ToolbarItem) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(DimenTokens.x4),
-        verticalAlignment = Alignment.Bottom,
     ) {
         Text(
+            modifier = Modifier.alignByBaseline(),
             text = item.title.getString(),
             style = Typography.h3,
             color = FarmHubTheme.onSurface.get(),
         )
         Spacer(modifier = Modifier.weight(1f))
         Text(
+            modifier = Modifier.alignByBaseline(),
             text = item.date.getString(),
             style = Typography.body2.copy(fontWeight = FontWeight.Medium),
             color = FarmHubTheme.taskSnippetSecondaryInfo.get(),

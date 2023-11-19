@@ -18,12 +18,14 @@ import ru.rshbdigital.farmhub.core.ui.model.Text as TextItem
 @Composable
 fun TaskFilterChip(
     chip: ChipItem,
+    onChipClicked: () -> Unit,
 ) {
     val chipColor = if (chip.isSelected) FarmHubTheme.tabSelectedColor else FarmHubTheme.surface
     val chipTextColor = if (chip.isSelected) FarmHubTheme.onSurface else FarmHubTheme.taskSnippetSecondaryInfo
     Surface(
         color = chipColor.get(),
         shape = RoundedCornerShape(DimenTokens.x2),
+        onClick = onChipClicked,
     ) {
         Text(
             modifier = Modifier.padding(horizontal = DimenTokens.x6, vertical = DimenTokens.x2),
@@ -40,9 +42,11 @@ private fun TaskFilterChipPreview() {
     FarmHubTheme {
         TaskFilterChip(
             chip = ChipItem(
+                id = 1,
                 text = TextItem.Simple("Текущие"),
                 isSelected = false,
-            )
+            ),
+            onChipClicked = {},
         )
     }
 }
@@ -54,9 +58,11 @@ private fun SelectedTaskFilterChipPreview() {
     FarmHubTheme {
         TaskFilterChip(
             chip = ChipItem(
+                id = 2,
                 text = TextItem.Simple("Планируемые"),
                 isSelected = true,
-            )
+            ),
+            onChipClicked = {},
         )
     }
 }

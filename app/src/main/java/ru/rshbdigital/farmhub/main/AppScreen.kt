@@ -34,6 +34,7 @@ import ru.rshbdigital.farmhub.core.routes.Routes
 import ru.rshbdigital.farmhub.feature.counter.CounterNavRoute
 import ru.rshbdigital.farmhub.feature.requests.RequestsNavRoute
 import ru.rshbdigital.farmhub.feature.tasks.TasksNavRoute
+import ru.rshbdigital.farmhub.main.theme.DimenTokens
 
 enum class Tab(
     @StringRes val tabNameStringId: Int,
@@ -97,36 +98,38 @@ fun AppScreen(
         ) {
             Scaffold(
                 bottomBar = {
-                    NavigationBar(
-                        containerColor = FarmHubTheme.surface.get(),
-                    ) {
-                        tabs.forEach { tab ->
-                            val navBackStackEntry by navController.currentBackStackEntryAsState()
-                            val currentDestination = navBackStackEntry?.destination
-                            val isSelected = currentDestination?.hierarchy?.any { it.route == tab.route } == true
-                            NavigationBarItem(
-                                colors = NavigationBarItemDefaults.colors(indicatorColor = FarmHubTheme.tabSelectedColor.get()),
-                                icon = {
-                                    val iconResId = if (isSelected) tab.tabIconSelected else tab.tabIcon
-                                    Icon(imageVector = ImageVector.vectorResource(id = iconResId), contentDescription = null)
-                                },
-                                selected = isSelected,
-                                label = {
-                                    Text(
-                                        text = stringResource(tab.tabNameStringId),
-                                        style = Typography.bottomNavigation
-                                    )
-                                },
-                                onClick = {
-                                    navController.navigate(tab.route) {
-                                        popUpTo(navController.graph.findStartDestination().id) {
-                                            saveState = true
+                    Surface(shadowElevation = DimenTokens.x4) {
+                        NavigationBar(
+                            containerColor = FarmHubTheme.surface.get(),
+                        ) {
+                            tabs.forEach { tab ->
+                                val navBackStackEntry by navController.currentBackStackEntryAsState()
+                                val currentDestination = navBackStackEntry?.destination
+                                val isSelected = currentDestination?.hierarchy?.any { it.route == tab.route } == true
+                                NavigationBarItem(
+                                    colors = NavigationBarItemDefaults.colors(indicatorColor = FarmHubTheme.tabSelectedColor.get()),
+                                    icon = {
+                                        val iconResId = if (isSelected) tab.tabIconSelected else tab.tabIcon
+                                        Icon(imageVector = ImageVector.vectorResource(id = iconResId), contentDescription = null)
+                                    },
+                                    selected = isSelected,
+                                    label = {
+                                        Text(
+                                            text = stringResource(tab.tabNameStringId),
+                                            style = Typography.bottomNavigation
+                                        )
+                                    },
+                                    onClick = {
+                                        navController.navigate(tab.route) {
+                                            popUpTo(navController.graph.findStartDestination().id) {
+                                                saveState = true
+                                            }
+                                            launchSingleTop = true
+                                            restoreState = true
                                         }
-                                        launchSingleTop = true
-                                        restoreState = true
                                     }
-                                }
-                            )
+                                )
+                            }
                         }
                     }
                 }
