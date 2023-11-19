@@ -83,7 +83,7 @@ class AuthActivity : ComponentActivity() {
                                 )
                                 Spacer(modifier = Modifier.height(DimenTokens.x3))
                                 Text(
-                                    text = "Для начала работы с приложением поднесите RFID-карту к устройству",
+                                    text = "Для начала работы поднесите RFID-карту к устройству",
                                     style = Typography.body1,
                                     color = FarmHubTheme.primary.get().copy(alpha = 0.6f),
                                 )

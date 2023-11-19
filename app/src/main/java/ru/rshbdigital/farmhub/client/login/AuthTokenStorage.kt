@@ -6,8 +6,12 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 private const val STORAGE_NAME = "AUTH_TOKEN_STORAGE"
@@ -28,6 +32,10 @@ class AuthTokenStorage @Inject constructor(
         val key = preferences[authTokenKey]
         currentAuthToken = key
         key
+    }
+
+    init {
+        CoroutineScope(Dispatchers.Main).launch { authToken.first() }
     }
 
     suspend fun setAuthToken(token: String?) = context.dataStoreSettings.edit { preferences ->

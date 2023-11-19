@@ -13,7 +13,10 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
+import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import ru.rshbdigital.farmhub.R
 import ru.rshbdigital.farmhub.client.login.LoginRepository
 import ru.rshbdigital.farmhub.client.offline.OfflineRepository
@@ -49,6 +52,7 @@ class MainActivity : ComponentActivity(), OfflineListener {
         }
         createNotificationChannel()
         askNotificationPermission()
+        sendFcmToken()
     }
 
     override val isOffline get() = offlineRepository.isOffline
@@ -73,6 +77,16 @@ class MainActivity : ComponentActivity(), OfflineListener {
             val permissionResult = ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
             if (permissionResult != PackageManager.PERMISSION_GRANTED) {
                 requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+            }
+        }
+    }
+
+    private fun sendFcmToken() {
+        FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                lifecycleScope.launch {
+                    loginRepository.sendFcmToken(task.result)
+                }
             }
         }
     }

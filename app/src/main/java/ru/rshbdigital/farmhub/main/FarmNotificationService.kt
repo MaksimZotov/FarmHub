@@ -7,15 +7,28 @@ import android.content.Context
 import android.content.Intent
 import android.media.RingtoneManager
 import android.os.Build
-import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.google.firebase.messaging.RemoteMessage.Notification
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 import ru.rshbdigital.farmhub.R
+import ru.rshbdigital.farmhub.client.login.LoginRepository
 import ru.rshbdigital.farmhub.core.util.nullIfBlank
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class FarmNotificationService : FirebaseMessagingService() {
+
+    private val job = SupervisorJob()
+    private val scope = CoroutineScope(Dispatchers.IO + job)
+
+    @Inject
+    lateinit var loginRepository: LoginRepository
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         remoteMessage.notification?.let { sendNotification(it) }
@@ -26,7 +39,9 @@ class FarmNotificationService : FirebaseMessagingService() {
     }
 
     private fun sendRegistrationToServer(token: String?) {
-        Log.d("FarmNotificationService", "sendRegistrationTokenToServer($token)")
+        scope.launch {
+            token?.let { loginRepository.sendFcmToken(it) }
+        }
     }
 
     private fun sendNotification(notification: Notification) {
