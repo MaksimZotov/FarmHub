@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.media.RingtoneManager
 import android.os.Build
+import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
@@ -19,6 +20,7 @@ import kotlinx.coroutines.launch
 import ru.rshbdigital.farmhub.R
 import ru.rshbdigital.farmhub.client.login.LoginRepository
 import ru.rshbdigital.farmhub.core.util.nullIfBlank
+import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -40,7 +42,18 @@ class FarmNotificationService : FirebaseMessagingService() {
 
     private fun sendRegistrationToServer(token: String?) {
         scope.launch {
-            token?.let { loginRepository.sendFcmToken(it) }
+            token?.let {
+                try {
+                    loginRepository.sendFcmToken(it)
+                } catch (e: Exception) {
+                    Timber.e(e)
+                    Toast.makeText(
+                        this@FarmNotificationService,
+                        "Что-то пошло не так, попробуйте позже",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
         }
     }
 

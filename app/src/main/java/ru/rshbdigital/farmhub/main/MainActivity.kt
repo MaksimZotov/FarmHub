@@ -21,6 +21,7 @@ import ru.rshbdigital.farmhub.R
 import ru.rshbdigital.farmhub.client.login.LoginRepository
 import ru.rshbdigital.farmhub.client.offline.OfflineRepository
 import ru.rshbdigital.farmhub.core.ui.components.OfflineListener
+import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -85,7 +86,16 @@ class MainActivity : ComponentActivity(), OfflineListener {
         FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 lifecycleScope.launch {
-                    loginRepository.sendFcmToken(task.result)
+                    try {
+                        loginRepository.sendFcmToken(task.result)
+                    } catch (e: Exception) {
+                        Timber.e(e)
+                        Toast.makeText(
+                            this@MainActivity,
+                            "Что-то пошло не так, попробуйте позже",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
                 }
             }
         }
