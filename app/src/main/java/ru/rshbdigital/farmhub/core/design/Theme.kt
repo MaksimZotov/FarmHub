@@ -22,11 +22,11 @@ private val DarkColorScheme = darkColorScheme(
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = FarmHubColors.MaastrichtBlue,
+    primary = FarmHubColors.BrightGrey,
     onPrimary = FarmHubColors.ColumbiaBlue,
 
     secondary = FarmHubColors.ColumbiaBlue,
-    onSecondary = FarmHubColors.MaastrichtBlue,
+    onSecondary = FarmHubColors.BrightGrey,
 
     background = FarmHubColors.BrightGrey,
     onBackground = FarmHubColors.EerieBlack,

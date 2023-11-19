@@ -12,8 +12,6 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import ru.rshbdigital.farmhub.client.counter.local.CounterLocalDataSource
-import ru.rshbdigital.farmhub.client.counter.netrwork.CounterNetworkDataSource
 import ru.rshbdigital.farmhub.client.offline.local.OfflineLocalDataSource
 import ru.rshbdigital.farmhub.client.tasks.local.TasksLocalDataSource
 import ru.rshbdigital.farmhub.client.tasks.network.TasksNetworkDataSource
@@ -30,8 +28,6 @@ import javax.inject.Singleton
 @Singleton
 class OfflineRepository @Inject constructor(
     private val offlineLocalDataSource: OfflineLocalDataSource,
-    private val counterNetworkDataSource: CounterNetworkDataSource,
-    private val counterLocalDataSource: CounterLocalDataSource,
     private val tasksNetworkDataSource: TasksNetworkDataSource,
     private val tasksLocalDataSource: TasksLocalDataSource
 ) {
@@ -112,10 +108,6 @@ class OfflineRepository @Inject constructor(
             }.forEach { request ->
                 try {
                     when (request) {
-                        is Request.SetCounter -> {
-                            val counter = counterNetworkDataSource.setCounter(request.count).toDomain()
-                            counterLocalDataSource.saveCounter(counter.toEntity())
-                        }
                         is Request.UpdateTask -> {
                             val task = tasksNetworkDataSource.updateTask(
                                 request.taskId,
@@ -136,10 +128,6 @@ class OfflineRepository @Inject constructor(
                 } catch (exception: Exception) {
                     if (!exception.becauseOfBadInternet()) {
                         when (request) {
-                            is Request.SetCounter -> {
-                                val requestWithException = request.copy(errorCode = exception.tryGetErrorCode())
-                                offlineLocalDataSource.updateRequest(requestWithException.toEntity())
-                            }
                             is Request.UpdateTask -> {
                                 val requestWithException = request.copy(errorCode = exception.tryGetErrorCode())
                                 offlineLocalDataSource.updateRequest(requestWithException.toEntity())
