@@ -66,9 +66,16 @@ class AuthActivity : ComponentActivity() {
                         AlertDialog(
                             dialog = AlertDialogItem(
                                 title = TextItem.Simple("Авторизация"),
-                                message = TextItem.Simple("Для начала работы поднесите RFID-карту к устройству"),
-                                isDismissable = false,
+                                message = TextItem.Simple(
+                                    "Для начала работы поднесите RFID-карту к устройству\n\n" +
+                                            "Если нет возможности воспользоваться RFID-меткой, вы можете войти в режим отладки"
+                                ),
+                                primaryButtonText = TextItem.Simple("Режим отладки"),
+                                isDismissable = false
                             ),
+                            primaryButtonClick = {
+                                handleTagScanned("04:25:58:ba:86:3f:80")
+                            }
                         )
                     }
                 }
