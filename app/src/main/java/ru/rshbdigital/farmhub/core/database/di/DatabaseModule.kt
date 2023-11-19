@@ -9,6 +9,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import ru.rshbdigital.farmhub.core.database.AppDatabase
 import ru.rshbdigital.farmhub.core.database.dao.RequestDao
+import ru.rshbdigital.farmhub.core.database.dao.TaskDao
 import javax.inject.Singleton
 
 @Module
@@ -33,5 +34,13 @@ object DatabaseModule {
         appDatabase: AppDatabase
     ): RequestDao {
         return appDatabase.requestDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideTaskDao(
+        appDatabase: AppDatabase
+    ): TaskDao {
+        return appDatabase.taskDao()
     }
 }

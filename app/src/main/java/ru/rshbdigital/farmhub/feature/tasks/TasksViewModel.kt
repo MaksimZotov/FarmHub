@@ -77,19 +77,20 @@ class TasksViewModel @Inject constructor(
                 primaryButtonText = Text.Simple("Завершить работу"),
                 secondaryButtonText = Text.Simple("Сообщить о проблеме")
             )
-        }.toImmutableList()
+        }.toImmutableList(),
+        isProgress = vmState.isProgress
     )
 
     init {
-
-    }
-
-    fun loadNext() {
-
-    }
-
-    suspend fun loadNextSync() {
-
+        launchSafe {
+            val tasks = tasksRepository.getTasks(page = 1)
+            updateState {
+                it.copy(
+                    tasks = tasks.results.orEmpty(),
+                    isProgress = false
+                )
+            }
+        }
     }
 
     fun primaryButtonClick(taskSnippetItem: TaskSnippetItem) {

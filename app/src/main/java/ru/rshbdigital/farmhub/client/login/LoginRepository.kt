@@ -6,5 +6,5 @@ import javax.inject.Inject
 
 class LoginRepository @Inject constructor() {
     // Можно тянуть из DataStore
-    val userRole = MutableStateFlow(User.Role.MECHANIZER)
+    val userRole = MutableStateFlow(User.Role.AGRICULTURIST)
 }

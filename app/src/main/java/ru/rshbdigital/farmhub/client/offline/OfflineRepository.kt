@@ -15,6 +15,9 @@ import kotlinx.coroutines.sync.withLock
 import ru.rshbdigital.farmhub.client.counter.local.CounterLocalDataSource
 import ru.rshbdigital.farmhub.client.counter.netrwork.CounterNetworkDataSource
 import ru.rshbdigital.farmhub.client.offline.local.OfflineLocalDataSource
+import ru.rshbdigital.farmhub.client.tasks.local.TasksLocalDataSource
+import ru.rshbdigital.farmhub.client.tasks.network.TasksNetworkDataSource
+import ru.rshbdigital.farmhub.core.api.converter.TaskConverter
 import ru.rshbdigital.farmhub.core.mapper.toDomain
 import ru.rshbdigital.farmhub.core.mapper.toEntity
 import ru.rshbdigital.farmhub.core.model.Request
@@ -23,13 +26,14 @@ import ru.rshbdigital.farmhub.core.util.becauseOfBadInternet
 import ru.rshbdigital.farmhub.core.util.tryGetErrorCode
 import javax.inject.Inject
 import javax.inject.Singleton
-import kotlin.random.Random
 
 @Singleton
 class OfflineRepository @Inject constructor(
     private val offlineLocalDataSource: OfflineLocalDataSource,
     private val counterNetworkDataSource: CounterNetworkDataSource,
-    private val counterLocalDataSource: CounterLocalDataSource
+    private val counterLocalDataSource: CounterLocalDataSource,
+    private val tasksNetworkDataSource: TasksNetworkDataSource,
+    private val tasksLocalDataSource: TasksLocalDataSource
 ) {
 
     companion object {
@@ -112,16 +116,32 @@ class OfflineRepository @Inject constructor(
                         is Request.SetCounter -> {
                             val counter = counterNetworkDataSource.setCounter(request.count).toDomain()
                             counterLocalDataSource.saveCounter(counter.toEntity())
-                            offlineLocalDataSource.deleteRequest(request.id)
-                            setIsOffline(false)
+                        }
+                        is Request.UpdateTask -> {
+                            tasksNetworkDataSource.updateTask(
+                                TaskConverter.toNetwork(request.task)
+                            )
+                            tasksLocalDataSource.saveTask(
+                                TaskConverter.toEntity(
+                                    request.task
+                                )
+                            )
                         }
                     }
+                    offlineLocalDataSource.deleteRequest(request.id)
+                    setIsOffline(false)
                 } catch (exception: Exception) {
                     if (!exception.becauseOfBadInternet()) {
-                        val requestWithException = request.copy(
-                            errorCode = exception.tryGetErrorCode()
-                        )
-                        offlineLocalDataSource.updateRequest(requestWithException.toEntity())
+                        when (request) {
+                            is Request.SetCounter -> {
+                                val requestWithException = request.copy(errorCode = exception.tryGetErrorCode())
+                                offlineLocalDataSource.updateRequest(requestWithException.toEntity())
+                            }
+                            is Request.UpdateTask -> {
+                                val requestWithException = request.copy(errorCode = exception.tryGetErrorCode())
+                                offlineLocalDataSource.updateRequest(requestWithException.toEntity())
+                            }
+                        }
                     } else {
                         setIsOffline(true)
                         return@forEach

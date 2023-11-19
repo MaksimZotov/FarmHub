@@ -1,6 +1,7 @@
 package ru.rshbdigital.farmhub.core.api.converter
 
 import ru.rshbdigital.farmhub.core.api.model.NWTask
+import ru.rshbdigital.farmhub.core.database.model.DBTask
 import ru.rshbdigital.farmhub.core.model.Task
 import ru.rshbdigital.farmhub.core.util.let
 import ru.rshbdigital.farmhub.core.util.nullIfBlank
@@ -49,6 +50,34 @@ object TaskConverter {
         unit = convert(src.unit, TrailingUnitConverter::toNetwork),
         location = convert(src.location, LocationConverter::toNetwork),
         executor = convert(src.executor, UserConverter::toNetwork),
+        comment = src.comment,
+    )
+
+    fun toEntity(src: Task): DBTask = DBTask(
+        id = src.id,
+        taskAddedDate = src.taskAddedDate,
+        commitDate = src.commitDate,
+        operation = src.operation,
+        status = src.status,
+        payment = src.payment,
+        machine = src.machine,
+        unit = src.unit,
+        location = src.location,
+        executor = src.executor,
+        comment = src.comment,
+    )
+
+    fun fromEntity(src: DBTask) = Task(
+        id = src.id,
+        taskAddedDate = src.taskAddedDate,
+        commitDate = src.commitDate,
+        operation = src.operation,
+        status = src.status,
+        payment = src.payment,
+        machine = src.machine,
+        unit = src.unit,
+        location = src.location,
+        executor = src.executor,
         comment = src.comment,
     )
 }
