@@ -1,6 +1,5 @@
 package ru.rshbdigital.farmhub.client.tasks
 
-import androidx.room.TypeConverter
 import ru.rshbdigital.farmhub.client.offline.OfflineRepository
 import ru.rshbdigital.farmhub.client.tasks.local.TasksLocalDataSource
 import ru.rshbdigital.farmhub.client.tasks.network.TasksNetworkDataSource
@@ -9,8 +8,8 @@ import ru.rshbdigital.farmhub.core.mapper.toDomain
 import ru.rshbdigital.farmhub.core.model.PaginationList
 import ru.rshbdigital.farmhub.core.model.Request
 import ru.rshbdigital.farmhub.core.model.Task
+import ru.rshbdigital.farmhub.core.model.UpdateTaskRequest
 import ru.rshbdigital.farmhub.core.util.becauseOfBadInternet
-import timber.log.Timber
 import javax.inject.Inject
 
 class TasksRepository @Inject constructor(
@@ -24,7 +23,6 @@ class TasksRepository @Inject constructor(
             val tasks = tasksNetworkDataSource
                 .getTasks(page)
                 .toDomain(TaskConverter::fromNetwork)
-            Timber.d("FFFFF $tasks")
             val filteredTasks = PaginationList(
                 next = tasks.next,
                 results = tasks.results?.filterNotNull()
@@ -56,23 +54,20 @@ class TasksRepository @Inject constructor(
         }
     }
 
-    suspend fun updateTask(task: Task): Task? {
+    suspend fun updateTask(task: Task, updateTaskRequest: UpdateTaskRequest): Task? {
         return try {
             if (offlineRepository.checkIsOffline()) {
-                performUpdateTaskLocally(task)
+                performUpdateTaskLocally(task, updateTaskRequest)
             } else {
-                val newTask = TaskConverter.fromNetwork(
-                    tasksNetworkDataSource.updateTask(
-                        TaskConverter.toNetwork(task)
-                    )
-                )
+                val newTask = tasksNetworkDataSource.updateTask(task.id, updateTaskRequest)
+                val convertedTask = TaskConverter.fromNetwork(newTask)
                 offlineRepository.setIsOffline(false)
-                newTask
+                convertedTask
             }
         } catch (exception: Exception) {
             if (exception.becauseOfBadInternet()) {
                 offlineRepository.setIsOffline(true)
-                performUpdateTaskLocally(task)
+                performUpdateTaskLocally(task, updateTaskRequest)
             } else {
                 offlineRepository.setIsOffline(false)
                 throw exception
@@ -80,15 +75,16 @@ class TasksRepository @Inject constructor(
         }
     }
 
-    private suspend fun performUpdateTaskLocally(task: Task): Task {
-        tasksLocalDataSource.saveTask(
-            task = TaskConverter.toEntity(
-                src = task
-            )
-        )
+    private suspend fun performUpdateTaskLocally(
+        task: Task,
+        updateTaskRequest: UpdateTaskRequest
+    ): Task {
+        val convertedTask = TaskConverter.toEntity(task)
+        tasksLocalDataSource.saveTask(convertedTask)
         offlineRepository.saveRequest(
             request = Request.UpdateTask(
-                task = task
+                taskId = task.id,
+                updateTaskRequest = updateTaskRequest
             )
         )
         return task

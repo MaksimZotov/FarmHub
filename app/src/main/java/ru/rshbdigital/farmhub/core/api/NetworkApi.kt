@@ -5,11 +5,13 @@ import retrofit2.http.POST
 import ru.rshbdigital.farmhub.core.api.model.NWRfidRequest
 import ru.rshbdigital.farmhub.core.api.model.NWRfidResponse
 import retrofit2.http.GET
+import retrofit2.http.PATCH
 import retrofit2.http.PUT
 import retrofit2.http.Path
 import retrofit2.http.Query
 import ru.rshbdigital.farmhub.core.api.model.NWPaginationList
 import ru.rshbdigital.farmhub.core.api.model.NWTask
+import ru.rshbdigital.farmhub.core.model.UpdateTaskRequest
 
 interface NetworkApi {
 
@@ -21,9 +23,9 @@ interface NetworkApi {
         @Query("page") page: Int
     ): NWPaginationList<NWTask>
 
-    @PUT("task/{id}/")
+    @PATCH("task/{id}/")
     suspend fun updateTask(
         @Path("id") id: String,
-        @Body task: NWTask
+        @Body request: UpdateTaskRequest
     ): NWTask
 }

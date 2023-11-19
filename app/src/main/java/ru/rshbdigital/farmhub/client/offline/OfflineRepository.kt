@@ -118,14 +118,18 @@ class OfflineRepository @Inject constructor(
                             counterLocalDataSource.saveCounter(counter.toEntity())
                         }
                         is Request.UpdateTask -> {
-                            tasksNetworkDataSource.updateTask(
-                                TaskConverter.toNetwork(request.task)
+                            val task = tasksNetworkDataSource.updateTask(
+                                request.taskId,
+                                request.updateTaskRequest
                             )
-                            tasksLocalDataSource.saveTask(
-                                TaskConverter.toEntity(
-                                    request.task
+                            val convertedTask = TaskConverter.fromNetwork(task)
+                            if (convertedTask != null) {
+                                tasksLocalDataSource.saveTask(
+                                    TaskConverter.toEntity(
+                                        convertedTask
+                                    )
                                 )
-                            )
+                            }
                         }
                     }
                     offlineLocalDataSource.deleteRequest(request.id)

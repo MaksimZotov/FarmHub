@@ -41,7 +41,8 @@ fun DBRequest.toDomain() = when (requestType) {
         Request.UpdateTask(
             id = id,
             errorCode = errorCode,
-            task = request.task
+            taskId = request.taskId,
+            updateTaskRequest = request.updateTaskRequest
         )
     }
 }

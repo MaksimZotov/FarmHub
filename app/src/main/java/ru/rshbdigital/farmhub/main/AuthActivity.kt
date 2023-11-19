@@ -32,6 +32,7 @@ import ru.rshbdigital.farmhub.client.login.LoginRepository
 import ru.rshbdigital.farmhub.core.design.FarmHubTheme
 import ru.rshbdigital.farmhub.core.design.Typography
 import ru.rshbdigital.farmhub.main.theme.DimenTokens
+import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -47,6 +48,8 @@ class AuthActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        startMainActivity()
+        return
         lifecycleScope.launch {
             loginRepository.isAuthorized.collect { isAuthorized ->
                 if (isAuthorized) startMainActivity()
@@ -135,6 +138,7 @@ class AuthActivity : ComponentActivity() {
             try {
                 loginRepository.loginByRfid(tagId)
             } catch (e: Exception) {
+                Timber.e(e)
                 Toast.makeText(this@AuthActivity, "Что-то пошло не так, попробуйте позже", Toast.LENGTH_LONG).show()
             }
         }
