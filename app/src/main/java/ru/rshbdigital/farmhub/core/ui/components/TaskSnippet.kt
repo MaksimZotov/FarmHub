@@ -6,13 +6,10 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
@@ -106,26 +103,28 @@ fun TaskSnippet(
                 Spacer(modifier = Modifier.height(DimenTokens.x4))
             }
             if (task.primaryButtonText != null) {
-                TaskActionButton(
+                ActionButton(
                     text = task.primaryButtonText,
                     colors = ButtonDefaults.textButtonColors(
                         containerColor = FarmHubTheme.primary.get(),
                         contentColor = FarmHubTheme.onPrimary.get(),
                     ),
                     onClick = primaryButtonClick,
+                    minHeight = DimenTokens.x14,
                 )
             }
             if (task.primaryButtonText != null && task.secondaryButtonText != null) {
                 Spacer(modifier = Modifier.height(DimenTokens.x2))
             }
             if (task.secondaryButtonText != null) {
-                TaskActionButton(
+                ActionButton(
                     text = task.secondaryButtonText,
                     colors = ButtonDefaults.textButtonColors(
                         containerColor = FarmHubTheme.secondary.get(),
                         contentColor = FarmHubTheme.onSecondary.get(),
                     ),
                     onClick = secondaryButtonClick,
+                    minHeight = DimenTokens.x14,
                 )
             }
         }
@@ -148,28 +147,6 @@ private fun TaskDetailItem(@DrawableRes icon: Int, text: Text) {
             style = Typography.body1,
         )
     }
-}
-
-@Composable
-private fun TaskActionButton(
-    text: Text,
-    colors: ButtonColors,
-    onClick: () -> Unit,
-) {
-    Button(
-        modifier = Modifier
-            .fillMaxWidth()
-            .heightIn(min = DimenTokens.x14),
-        shape = RoundedCornerShape(DimenTokens.x4),
-        colors = colors,
-        onClick = onClick,
-    ) {
-        Text(
-            text = text.getString(),
-            style = Typography.body1.copy(fontWeight = FontWeight.Medium),
-        )
-    }
-
 }
 
 @Composable

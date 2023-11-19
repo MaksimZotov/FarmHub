@@ -12,26 +12,17 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import ru.rshbdigital.farmhub.client.login.LoginRepository
 import ru.rshbdigital.farmhub.core.design.FarmHubTheme
-import ru.rshbdigital.farmhub.core.design.Typography
-import ru.rshbdigital.farmhub.main.theme.DimenTokens
+import ru.rshbdigital.farmhub.core.ui.components.AlertDialog
+import ru.rshbdigital.farmhub.core.ui.model.AlertDialogItem
+import ru.rshbdigital.farmhub.core.ui.model.Text
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -60,36 +51,12 @@ class AuthActivity : ComponentActivity() {
                         .background(FarmHubTheme.background.get())
                 ) {
                     AlertDialog(
-                        properties = DialogProperties(
-                            dismissOnBackPress = false,
-                            dismissOnClickOutside = false,
+                        dialog = AlertDialogItem(
+                            title = Text.Simple("Авторизация"),
+                            message = Text.Simple("Для начала работы поднесите RFID-карту к устройству"),
+                            isDismissable = false,
                         ),
-                        onDismissRequest = {}
-                    ) {
-                        Surface(
-                            modifier = Modifier.fillMaxWidth(),
-                            color = FarmHubTheme.surface.get(),
-                            shape = RoundedCornerShape(DimenTokens.x6),
-                        ) {
-                            Column(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(DimenTokens.x6)
-                            ) {
-                                Text(
-                                    text = "Авторизация",
-                                    style = Typography.h2,
-                                    color = FarmHubTheme.onSurface.get(),
-                                )
-                                Spacer(modifier = Modifier.height(DimenTokens.x3))
-                                Text(
-                                    text = "Для начала работы поднесите RFID-карту к устройству",
-                                    style = Typography.body1,
-                                    color = FarmHubTheme.primary.get().copy(alpha = 0.6f),
-                                )
-                            }
-                        }
-                    }
+                    )
                 }
             }
         }
