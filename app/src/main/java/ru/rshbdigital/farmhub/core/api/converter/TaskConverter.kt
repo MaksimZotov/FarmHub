@@ -44,20 +44,6 @@ object TaskConverter {
         }
     }
 
-    fun toNetwork(src: Task): NWTask = NWTask(
-        id = src.id,
-        addDate = convert(src.addDate, DateConverter::toNetwork),
-        commitDate = convert(src.commitDate, DateConverter::toNetwork),
-        operation = convert(src.operation, OperationConverter::toNetwork),
-        status = src.status.name,
-        payment = src.payment,
-        machine = convert(src.machine, MachineConverter::toNetwork),
-        unit = convert(src.unit, TrailingUnitConverter::toNetwork),
-        location = convert(src.location, LocationConverter::toNetwork),
-        executor = convert(src.executor, UserConverter::toNetwork),
-        comment = src.comment,
-    )
-
     fun toEntity(src: Task): DBTask = DBTask(
         id = src.id,
         taskAddedDate = src.addDate,

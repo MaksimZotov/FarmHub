@@ -84,6 +84,8 @@ dependencies {
 
     implementation(libs.kotlinx.collections.immutable)
 
+    implementation(libs.compose.material)
+
     debugImplementation(libs.ui.tooling)
     debugImplementation(libs.ui.test.manifest)
 }

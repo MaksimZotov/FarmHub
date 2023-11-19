@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import ru.rshbdigital.farmhub.core.navigation.RouteNavigator
+import timber.log.Timber
 
 abstract class BaseViewModel<VM: VmState, UI: UiState>(
     protected val routeNavigator: RouteNavigator
@@ -58,6 +59,7 @@ abstract class BaseViewModel<VM: VmState, UI: UiState>(
     }
 
     protected open fun handleError(exception: Exception?) {
+        Timber.e(exception)
         _errorMessage.tryEmit("Произошла ошибка")
     }
 }

@@ -23,7 +23,8 @@ object TasksNavRoute : NavRoute<TasksViewModel> {
         TasksScreen(
             uiState = uiState,
             primaryButtonClick = viewModel::primaryButtonClick,
-            secondaryButtonClick = viewModel::secondaryButtonClick
+            secondaryButtonClick = viewModel::secondaryButtonClick,
+            refresh = viewModel::refresh
         )
         val context = LocalContext.current
         viewModel.errorMessage.collectAsEffect { message ->

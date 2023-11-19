@@ -18,5 +18,5 @@ interface TaskDao {
 
     @Transaction
     @Query("SELECT * FROM task_table")
-    fun getAll(): List<DBTask>
+    suspend fun getAll(): List<DBTask>
 }

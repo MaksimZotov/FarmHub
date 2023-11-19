@@ -1,25 +1,10 @@
 package ru.rshbdigital.farmhub.core.model
 
-sealed class Operation {
-    abstract val speed: Float
+import ru.rshbdigital.farmhub.core.api.converter.OperationConverter
 
-    data class Seeding(
-        val depth: Float,
-        override val speed: Float,
-    ) : Operation()
-
-    data class Protection(
-        val flowRate: Float,
-        override val speed: Float,
-    ) : Operation()
-
-    data class Harvesting(
-        val depth: Float,
-        override val speed: Float,
-    ) : Operation()
-
-    data class SoilPreparation(
-        val depth: Float,
-        override val speed: Float,
-    ) : Operation()
-}
+data class Operation(
+    val type: OperationConverter.Type,
+    val speed: Float = 0f,
+    val depth: Float = 0f,
+    val flowRate: Float = 0f,
+)

@@ -4,7 +4,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.toImmutableList
 import ru.rshbdigital.farmhub.R.string
 import ru.rshbdigital.farmhub.client.tasks.TasksRepository
-import ru.rshbdigital.farmhub.core.model.Operation
+import ru.rshbdigital.farmhub.core.api.converter.OperationConverter
 import ru.rshbdigital.farmhub.core.model.Task
 import ru.rshbdigital.farmhub.core.model.toUpdateTaskRequest
 import ru.rshbdigital.farmhub.core.navigation.RouteNavigator
@@ -37,11 +37,11 @@ class TasksViewModel @Inject constructor(
                     Task.Status.MACHINE_INSPECTION,
                     Task.Status.IN_PROGRESS
                 ),
-                title = when (task.operation) {
-                    is Operation.Seeding -> Text.Resource(string.seeding)
-                    is Operation.Protection -> Text.Resource(string.protection)
-                    is Operation.Harvesting -> Text.Resource(string.harvesting)
-                    is Operation.SoilPreparation -> Text.Resource(string.soil_preparation)
+                title = when (task.operation.type) {
+                    OperationConverter.Type.SEEDING -> Text.Resource(string.seeding)
+                    OperationConverter.Type.PROTECTION -> Text.Resource(string.protection)
+                    OperationConverter.Type.HARVESTING -> Text.Resource(string.harvesting)
+                    OperationConverter.Type.SOIL_PREPARATION -> Text.Resource(string.soil_preparation)
                 },
                 date = Text.Simple(task.commitDate?.formatTo("dd.MM.YY").orEmpty()),
                 time = Text.Simple("08:00-14:00"),
@@ -58,8 +58,8 @@ class TasksViewModel @Inject constructor(
                 machine = Text.Simple(with(task.machine) { "$name $registrationNumber" }),
                 trailingUnit = Text.Simple(with(task.unit) { "$name $serialNumber" }),
                 plantType = Text.Simple("Озимая пшеница"),
-                additionalParams = when (task.operation) {
-                    is Operation.Seeding -> listOf(
+                additionalParams = when (task.operation.type) {
+                    OperationConverter.Type.SEEDING -> listOf(
                         Text.ResourceParams(
                             string.speed_with_arg,
                             listOf(task.operation.speed.roundToInt())
@@ -69,7 +69,7 @@ class TasksViewModel @Inject constructor(
                             listOf(task.operation.depth.roundToInt())
                         )
                     )
-                    is Operation.Protection -> listOf(
+                    OperationConverter.Type.PROTECTION -> listOf(
                         Text.ResourceParams(
                             string.speed_with_arg,
                             listOf(task.operation.speed.roundToInt())
@@ -79,7 +79,7 @@ class TasksViewModel @Inject constructor(
                             listOf(task.operation.flowRate.roundToInt())
                         )
                     )
-                    is Operation.Harvesting -> listOf(
+                    OperationConverter.Type.HARVESTING -> listOf(
                         Text.ResourceParams(
                             string.speed_with_arg,
                             listOf(task.operation.speed.roundToInt())
@@ -89,7 +89,7 @@ class TasksViewModel @Inject constructor(
                             listOf(task.operation.depth.roundToInt())
                         )
                     )
-                    is Operation.SoilPreparation -> listOf(
+                    OperationConverter.Type.SOIL_PREPARATION -> listOf(
                         Text.ResourceParams(
                             string.speed_with_arg,
                             listOf(task.operation.speed.roundToInt())
@@ -109,7 +109,8 @@ class TasksViewModel @Inject constructor(
                 ),
                 secondaryButtonText = Text.Simple("Сообщить о проблеме")
             )
-        }.toImmutableList()
+        }.toImmutableList(),
+        isRefreshing = vmState.isRefreshing
     )
 
     init {
@@ -153,7 +154,31 @@ class TasksViewModel @Inject constructor(
         }
     }
 
+    fun refresh() = launchSafe {
+        updateState {
+            it.copy(
+                isRefreshing = true
+            )
+        }
+        val tasks = tasksRepository.getTasks(page = 1)
+        updateState {
+            it.copy(
+                isRefreshing = false,
+                tasks = tasks.results.orEmpty()
+            )
+        }
+    }
+
     fun secondaryButtonClick(taskSnippetItem: TaskSnippetItem) {
         // TODO
+    }
+
+    override fun handleError(exception: Exception?) {
+        super.handleError(exception)
+        updateState {
+            it.copy(
+                isRefreshing = false
+            )
+        }
     }
 }

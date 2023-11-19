@@ -21,12 +21,7 @@ fun Task.toUpdateTaskRequest() = UpdateTaskRequest(
     id = id,
     addDate = addDate?.let { DateConverter.toNetwork(it) },
     commitDate = commitDate?.let { DateConverter.toNetwork(it) },
-    operation = when (operation) {
-        is Operation.Seeding -> "SEEDING"
-        is Operation.Protection -> "PROTECTION"
-        is Operation.Harvesting -> "HARVESTING"
-        is Operation.SoilPreparation -> "SOIL_PREPARATION"
-    },
+    operation = operation.type.operationName,
     status = status.name,
     payment = payment,
     machine = machine.id,

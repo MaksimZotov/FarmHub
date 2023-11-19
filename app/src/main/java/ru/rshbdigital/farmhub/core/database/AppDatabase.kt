@@ -12,7 +12,7 @@ import ru.rshbdigital.farmhub.core.database.model.DBTask
         DBRequest::class,
         DBTask::class
     ],
-    version = 2,
+    version = 3,
     exportSchema = true
 )
 abstract class AppDatabase : RoomDatabase() {
