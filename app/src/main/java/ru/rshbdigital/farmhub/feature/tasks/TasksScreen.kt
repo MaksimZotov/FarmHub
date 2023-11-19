@@ -17,7 +17,7 @@ import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -62,7 +62,7 @@ fun TasksScreen(
             .fillMaxSize()
             .pullRefresh(pullRefreshState)
     ) {
-        Column(
+        Box(
             modifier = Modifier
                 .fillMaxSize()
                 .background(FarmHubTheme.background.get())
@@ -70,9 +70,8 @@ fun TasksScreen(
             CompositionLocalProvider(
                 LocalOverscrollConfiguration provides null
             ) {
-                var selectedChip by remember { mutableStateOf(1) }
-                LazyColumn(
-                ) {
+                var selectedChip by remember { mutableIntStateOf(1) }
+                LazyColumn {
                     item {
                         Column {
                             MainToolbar(
@@ -103,9 +102,6 @@ fun TasksScreen(
                             )
                         }
                     }
-                    item {
-                        OfflinePopup()
-                    }
                     items(uiState.tasks) { task ->
                         TaskSnippet(
                             task = task,
@@ -119,6 +115,9 @@ fun TasksScreen(
                         Spacer(modifier = Modifier.height(DimenTokens.x4))
                     }
                 }
+            }
+            Box(modifier = Modifier.align(Alignment.BottomCenter)) {
+                OfflinePopup()
             }
         }
         PullRefreshIndicator(
