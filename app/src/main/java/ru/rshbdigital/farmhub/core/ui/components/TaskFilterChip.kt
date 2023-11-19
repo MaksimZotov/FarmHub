@@ -26,6 +26,7 @@ fun TaskFilterChip(
         color = chipColor.get(),
         shape = RoundedCornerShape(DimenTokens.x2),
         onClick = onChipClicked,
+        enabled = chip.id == 1
     ) {
         Text(
             modifier = Modifier.padding(horizontal = DimenTokens.x6, vertical = DimenTokens.x2),
