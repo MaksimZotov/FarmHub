@@ -2,7 +2,7 @@ package ru.rshbdigital.farmhub.core.api.model
 
 data class NWTask(
     val id: String? = null,
-    val taskAddedDate: String? = null,
+    val addDate: String? = null,
     val commitDate: String? = null,
     val operation: NWOperation? = null,
     val status: String? = null,

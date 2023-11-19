@@ -33,6 +33,7 @@ import ru.rshbdigital.farmhub.core.routes.COUNTER_PARAM
 import ru.rshbdigital.farmhub.core.routes.Routes
 import ru.rshbdigital.farmhub.feature.counter.CounterNavRoute
 import ru.rshbdigital.farmhub.feature.requests.RequestsNavRoute
+import ru.rshbdigital.farmhub.feature.tasks.TasksNavRoute
 
 enum class Tab(
     @StringRes val tabNameStringId: Int,
@@ -136,6 +137,12 @@ fun AppScreen(
                         startDestination = Tab.TASKS.route,
                         modifier = Modifier.padding(innerPadding)
                     ) {
+                        navigation(
+                            route = Tab.TASKS.route,
+                            startDestination = Routes.TASKS_ROUTE
+                        ) {
+                            TasksNavRoute.composable(this, navController)
+                        }
                         navigation(
                             route = Tab.REPORTS.route,
                             startDestination = Routes.COUNTER_ROUTE

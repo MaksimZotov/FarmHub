@@ -14,7 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.rshbdigital.farmhub.core.design.FarmHubTheme
-import ru.rshbdigital.farmhub.core.ui.offline.OfflinePopup
+import ru.rshbdigital.farmhub.core.ui.components.OfflinePopup
 import ru.rshbdigital.farmhub.feature.requests.state.RequestsUiState
 
 @Composable

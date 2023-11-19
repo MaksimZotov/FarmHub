@@ -5,6 +5,8 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
+import com.google.gson.FieldNamingPolicy
+import com.google.gson.GsonBuilder
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -15,6 +17,7 @@ import ru.rshbdigital.farmhub.core.api.AuthInterceptor
 import ru.rshbdigital.farmhub.core.api.Constants
 import ru.rshbdigital.farmhub.core.api.NetworkApi
 import javax.inject.Singleton
+
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -34,7 +37,7 @@ object ApiModule {
         authTokenStorage: AuthTokenStorage,
     ): OkHttpClient {
         val logger = HttpLoggingInterceptor().apply {
-            level = HttpLoggingInterceptor.Level.BASIC
+            level = HttpLoggingInterceptor.Level.BODY
         }
         return OkHttpClient.Builder()
             .addInterceptor(logger)
@@ -55,10 +58,13 @@ object ApiModule {
     fun provideRetrofit(
         client: OkHttpClient,
     ): Retrofit {
+        val gson = GsonBuilder()
+            .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+            .create()
         return Retrofit.Builder()
             .baseUrl(Constants.BASE_URL)
             .client(client)
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
     }
 }

@@ -1,6 +1,5 @@
 package ru.rshbdigital.farmhub.feature.counter
 
-import android.widget.ProgressBar
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -21,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.rshbdigital.farmhub.feature.counter.state.CounterUiState
 import ru.rshbdigital.farmhub.core.design.FarmHubTheme
-import ru.rshbdigital.farmhub.core.ui.offline.OfflinePopup
+import ru.rshbdigital.farmhub.core.ui.components.OfflinePopup
 
 @Composable
 fun SomeScreen(

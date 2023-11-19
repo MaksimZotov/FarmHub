@@ -1,5 +1,6 @@
 package ru.rshbdigital.farmhub.core.model
 
 enum class RequestType {
-    SET_COUNTER
+    SET_COUNTER,
+    UPDATE_TASK
 }

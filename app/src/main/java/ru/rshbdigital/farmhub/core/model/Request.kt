@@ -9,4 +9,10 @@ sealed interface Request {
         override val errorCode: Int? = null,
         val count: Int
     ): Request
+
+    data class UpdateTask(
+        override val id: Long = 0,
+        override val errorCode: Int? = null,
+        val task: Task
+    ): Request
 }

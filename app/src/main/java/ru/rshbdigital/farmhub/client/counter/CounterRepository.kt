@@ -43,8 +43,13 @@ class CounterRepository @Inject constructor(
             offlineRepository.setIsOffline(false)
             return counter
         } catch (exception: Exception) {
-            offlineRepository.setIsOffline(exception.becauseOfBadInternet())
-            counterLocalDataSource.getCounter(count).toDomain()
+            if (exception.becauseOfBadInternet()) {
+                offlineRepository.setIsOffline(true)
+                counterLocalDataSource.getCounter(count).toDomain()
+            } else {
+                offlineRepository.setIsOffline(false)
+                throw exception
+            }
         }
     }
 

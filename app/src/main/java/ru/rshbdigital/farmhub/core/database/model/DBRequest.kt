@@ -16,6 +16,6 @@ data class DBRequest(
     val requestType: RequestType,
     @ColumnInfo("error_code")
     val errorCode: Int? = null,
-    @ColumnInfo("count")
-    val count: Int? = null
+    @ColumnInfo("request")
+    val request: String
 )

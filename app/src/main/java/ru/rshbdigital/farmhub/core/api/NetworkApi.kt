@@ -4,6 +4,11 @@ import retrofit2.http.Body
 import retrofit2.http.POST
 import ru.rshbdigital.farmhub.core.api.model.NWRfidRequest
 import ru.rshbdigital.farmhub.core.api.model.NWRfidResponse
+import retrofit2.http.GET
+import retrofit2.http.PUT
+import retrofit2.http.Path
+import retrofit2.http.Query
+import ru.rshbdigital.farmhub.core.api.model.NWPaginationList
 import ru.rshbdigital.farmhub.core.api.model.NWTask
 
 interface NetworkApi {
@@ -11,5 +16,14 @@ interface NetworkApi {
     @POST("rfid_auth/")
     suspend fun loginByRfid(@Body rfid: NWRfidRequest): NWRfidResponse
 
-    suspend fun updateTask(task: NWTask): NWTask
+    @GET("task/")
+    suspend fun getTasks(
+        @Query("page") page: Int
+    ): NWPaginationList<NWTask>
+
+    @PUT("task/{id}/")
+    suspend fun updateTask(
+        @Path("id") id: String,
+        @Body task: NWTask
+    ): NWTask
 }
