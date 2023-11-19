@@ -14,6 +14,7 @@ object TaskConverter {
         val unit = convert(src.unit, TrailingUnitConverter::fromNetwork)
         val location = convert(src.location, LocationConverter::fromNetwork)
         val executor = convert(src.executor, UserConverter::fromNetwork)
+        val author = convert(src.author, UserConverter::fromNetwork)
 
         return let(
             src.id.nullIfBlank(),
@@ -23,11 +24,12 @@ object TaskConverter {
             machine,
             unit,
             location,
-            executor
-        ) { id, operation, addDate, commotDate, machine, unit, location, executor ->
+            executor,
+            author
+        ) { id, operation, addDate, commotDate, machine, unit, location, executor, author ->
             Task(
                 id = id,
-                taskAddedDate = convert(src.addDate, DateConverter::fromNetwork),
+                addDate = convert(src.addDate, DateConverter::fromNetwork),
                 commitDate = convert(src.commitDate, DateConverter::fromNetwork),
                 operation = operation,
                 status = convertEnum<Task.Status>(src.status) ?: Task.Status.UNKNOWN,
@@ -37,13 +39,14 @@ object TaskConverter {
                 location = location,
                 executor = executor,
                 comment = src.comment,
+                author = author
             )
         }
     }
 
     fun toNetwork(src: Task): NWTask = NWTask(
         id = src.id,
-        addDate = convert(src.taskAddedDate, DateConverter::toNetwork),
+        addDate = convert(src.addDate, DateConverter::toNetwork),
         commitDate = convert(src.commitDate, DateConverter::toNetwork),
         operation = convert(src.operation, OperationConverter::toNetwork),
         status = src.status.name,
@@ -57,7 +60,7 @@ object TaskConverter {
 
     fun toEntity(src: Task): DBTask = DBTask(
         id = src.id,
-        taskAddedDate = src.taskAddedDate,
+        taskAddedDate = src.addDate,
         commitDate = src.commitDate,
         operation = src.operation,
         status = src.status,
@@ -67,11 +70,12 @@ object TaskConverter {
         location = src.location,
         executor = src.executor,
         comment = src.comment,
+        author = src.author
     )
 
     fun fromEntity(src: DBTask) = Task(
         id = src.id,
-        taskAddedDate = src.taskAddedDate,
+        addDate = src.taskAddedDate,
         commitDate = src.commitDate,
         operation = src.operation,
         status = src.status,
@@ -81,5 +85,6 @@ object TaskConverter {
         location = src.location,
         executor = src.executor,
         comment = src.comment,
+        author = src.author
     )
 }

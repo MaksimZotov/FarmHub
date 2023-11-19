@@ -41,4 +41,5 @@ data class DBTask(
     val location: Location,
     val executor: User,
     val comment: String?,
+    val author: User
 )

@@ -12,8 +12,7 @@ class AuthInterceptor(
         val originalRequest = chain.request()
         val token = authTokenStorage.currentAuthToken
         val request = originalRequest.newBuilder()
-            //.apply { if (!token.isNullOrBlank()) header("Authorization", "Token $token") }
-            .header("Authorization", "Token aad2993e42a87e26e0eeb7a9dde2c82832ca211f")
+            .apply { if (!token.isNullOrBlank()) header("Authorization", "Token $token") }
             .build()
         return chain.proceed(request)
     }

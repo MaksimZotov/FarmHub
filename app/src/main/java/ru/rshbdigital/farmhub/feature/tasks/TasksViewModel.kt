@@ -6,7 +6,7 @@ import ru.rshbdigital.farmhub.R.string
 import ru.rshbdigital.farmhub.client.tasks.TasksRepository
 import ru.rshbdigital.farmhub.core.model.Operation
 import ru.rshbdigital.farmhub.core.model.Task
-import ru.rshbdigital.farmhub.core.model.UpdateTaskRequest
+import ru.rshbdigital.farmhub.core.model.toUpdateTaskRequest
 import ru.rshbdigital.farmhub.core.navigation.RouteNavigator
 import ru.rshbdigital.farmhub.core.state.BaseViewModel
 import ru.rshbdigital.farmhub.core.ui.model.TaskBadgeItem
@@ -44,7 +44,7 @@ class TasksViewModel @Inject constructor(
                     is Operation.SoilPreparation -> Text.Resource(string.soil_preparation)
                 },
                 date = Text.Simple(task.commitDate?.formatTo("dd.MM.YY").orEmpty()),
-                time = Text.Simple("08:00-14:00 *"),
+                time = Text.Simple("08:00-14:00"),
                 badge = when (task.status) {
                     Task.Status.UNKNOWN -> TaskBadgeItem.PendingMediumPriorityBadge
                     Task.Status.OPEN -> TaskBadgeItem.PendingMediumPriorityBadge
@@ -57,7 +57,7 @@ class TasksViewModel @Inject constructor(
                 location = Text.Simple(task.location.name),
                 machine = Text.Simple(with(task.machine) { "$name $registrationNumber" }),
                 trailingUnit = Text.Simple(with(task.unit) { "$name $serialNumber" }),
-                plantType = Text.Simple("Озимая пшеница *"),
+                plantType = Text.Simple("Озимая пшеница"),
                 additionalParams = when (task.operation) {
                     is Operation.Seeding -> listOf(
                         Text.ResourceParams(
@@ -107,7 +107,7 @@ class TasksViewModel @Inject constructor(
                         else -> "Перевести в \"Открыто\""
                     }
                 ),
-                secondaryButtonText = Text.Simple("Сообщить о проблеме *")
+                secondaryButtonText = Text.Simple("Сообщить о проблеме")
             )
         }.toImmutableList()
     )
@@ -137,9 +137,7 @@ class TasksViewModel @Inject constructor(
         launchSafe {
             val updatedTask = tasksRepository.updateTask(
                 task = newTask,
-                updateTaskRequest = UpdateTaskRequest(
-                    status = newStatus.name
-                )
+                updateTaskRequest = newTask.toUpdateTaskRequest()
             )
             updateState { state ->
                 state.copy(

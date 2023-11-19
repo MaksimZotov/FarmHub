@@ -4,7 +4,7 @@ import java.util.Date
 
 data class Task(
     val id: String,
-    val taskAddedDate: Date?,
+    val addDate: Date?,
     val commitDate: Date?,
     val operation: Operation,
     val status: Status,
@@ -14,6 +14,7 @@ data class Task(
     val location: Location,
     val executor: User,
     val comment: String?,
+    val author: User
 ) {
     enum class Status {
         UNKNOWN,

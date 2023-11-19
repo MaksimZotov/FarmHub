@@ -12,4 +12,5 @@ data class NWTask(
     val location: NWLocation? = null,
     val executor: NWUser? = null,
     val comment: String? = null,
+    val author: NWUser? = null
 )
