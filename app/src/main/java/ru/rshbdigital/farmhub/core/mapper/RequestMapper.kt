@@ -7,14 +7,6 @@ import ru.rshbdigital.farmhub.core.model.Request
 import ru.rshbdigital.farmhub.core.model.RequestType
 
 fun Request.toEntity() = when (this) {
-    is Request.SetCounter -> {
-        DBRequest(
-            id = id,
-            requestType = RequestType.SET_COUNTER,
-            errorCode = errorCode,
-            request = Gson().toJson(this)
-        )
-    }
     is Request.UpdateTask -> {
         DBRequest(
             id = id,
@@ -26,15 +18,6 @@ fun Request.toEntity() = when (this) {
 }
 
 fun DBRequest.toDomain() = when (requestType) {
-    RequestType.SET_COUNTER -> {
-        val typeToken = object : TypeToken<Request.SetCounter>() {}.type
-        val request = Gson().fromJson<Request.SetCounter>(request, typeToken)
-        Request.SetCounter(
-            id = id,
-            errorCode = errorCode,
-            count = request.count
-        )
-    }
     RequestType.UPDATE_TASK -> {
         val typeToken = object : TypeToken<Request.UpdateTask>() {}.type
         val request = Gson().fromJson<Request.UpdateTask>(request, typeToken)
