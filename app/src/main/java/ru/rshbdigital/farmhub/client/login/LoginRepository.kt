@@ -24,7 +24,7 @@ class LoginRepository @Inject constructor(
 
     suspend fun loginByRfid(rfid: String): AuthTokenHolder = withContext(Dispatchers.IO) {
         val response = api.loginByRfid(NWRfidRequest(rfid = rfid))
-        val token = response.Token?.nullIfBlank()
+        val token = response.token?.nullIfBlank()
         authTokenStorage.setAuthToken(token)
         checkNotNull(token)
         AuthTokenHolder(
