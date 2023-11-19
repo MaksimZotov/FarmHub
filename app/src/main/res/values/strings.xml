@@ -21,4 +21,8 @@
     <string name="protection">Защита растений</string>
     <string name="harvesting">Уборка урожая</string>
     <string name="soil_preparation">Обработка почвы</string>
+
+    <string name="speed_with_arg">Скорость: %d км/ч</string>
+    <string name="depth_with_arg">Глубина: %d см</string>
+    <string name="flow_rate_with_arg">Раствор: %d л</string>
 </resources>

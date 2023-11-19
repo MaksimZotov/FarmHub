@@ -1,14 +1,20 @@
 package ru.rshbdigital.farmhub.core.api.converter
 
+import java.text.SimpleDateFormat
 import java.util.Date
+import java.util.Locale
 
 object DateConverter {
 
+    private const val PATTERN = "yyyy-MM-dd'T'HH:mm:ss'Z'"
+
     fun fromNetwork(src: String): Date? {
-        TODO("Implement ISO 8601 date converter")
+        val sdf = SimpleDateFormat(PATTERN, Locale.getDefault())
+        return sdf.parse(src)
     }
 
     fun toNetwork(src: Date): String {
-        TODO("Implement ISO 8601 date converter")
+        val sdf = SimpleDateFormat(PATTERN, Locale.getDefault())
+        return sdf.format(src)
     }
 }

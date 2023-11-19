@@ -15,6 +15,7 @@ import ru.rshbdigital.farmhub.core.util.formatTo
 import ru.rshbdigital.farmhub.feature.tasks.state.TasksUiState
 import ru.rshbdigital.farmhub.feature.tasks.state.TasksVmState
 import javax.inject.Inject
+import kotlin.math.roundToInt
 
 @HiltViewModel
 class TasksViewModel @Inject constructor(
@@ -58,20 +59,44 @@ class TasksViewModel @Inject constructor(
                 plantType = Text.Simple("Озимая пшеница"),
                 additionalParams = when (task.operation) {
                     is Operation.Seeding -> listOf(
-                        Text.Simple(task.operation.speed.toString()),
-                        Text.Simple(task.operation.depth.toString())
+                        Text.ResourceParams(
+                            string.speed_with_arg,
+                            listOf(task.operation.speed.roundToInt())
+                        ),
+                        Text.ResourceParams(
+                            string.depth_with_arg,
+                            listOf(task.operation.depth.roundToInt())
+                        )
                     )
                     is Operation.Protection -> listOf(
-                        Text.Simple(task.operation.speed.toString()),
-                        Text.Simple(task.operation.flowRate.toString())
+                        Text.ResourceParams(
+                            string.speed_with_arg,
+                            listOf(task.operation.speed.roundToInt())
+                        ),
+                        Text.ResourceParams(
+                            string.flow_rate_with_arg,
+                            listOf(task.operation.flowRate.roundToInt())
+                        )
                     )
                     is Operation.Harvesting -> listOf(
-                        Text.Simple(task.operation.speed.toString()),
-                        Text.Simple(task.operation.depth.toString())
+                        Text.ResourceParams(
+                            string.speed_with_arg,
+                            listOf(task.operation.speed.roundToInt())
+                        ),
+                        Text.ResourceParams(
+                            string.depth_with_arg,
+                            listOf(task.operation.depth.roundToInt())
+                        )
                     )
                     is Operation.SoilPreparation -> listOf(
-                        Text.Simple(task.operation.speed.toString()),
-                        Text.Simple(task.operation.depth.toString())
+                        Text.ResourceParams(
+                            string.speed_with_arg,
+                            listOf(task.operation.speed.roundToInt())
+                        ),
+                        Text.ResourceParams(
+                            string.depth_with_arg,
+                            listOf(task.operation.depth.roundToInt())
+                        )
                     )
                 },
                 primaryButtonText = Text.Simple("Завершить работу"),
