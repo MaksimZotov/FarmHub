@@ -44,7 +44,7 @@ fun RequestsScreen(
             Text(
                 modifier = Modifier.fillMaxWidth(),
                 text = "$request",
-                fontSize = 20.sp,
+                fontSize = 14.sp,
                 textAlign = TextAlign.Center
             )
         }

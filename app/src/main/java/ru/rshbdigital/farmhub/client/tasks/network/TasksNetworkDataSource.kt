@@ -10,7 +10,6 @@ class TasksNetworkDataSource @Inject constructor(
     private val api: NetworkApi,
 ) {
     suspend fun getTasks(page: Int): NWPaginationList<NWTask> {
-        //api.rfid(NetworkApi.Rfid("04:25:58:ba:86:3f:80"))
         return api.getTasks(page)
     }
 

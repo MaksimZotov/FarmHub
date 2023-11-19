@@ -84,14 +84,13 @@ class OfflineRepository @Inject constructor(
         sendRequests()
     }
 
-    /**
-     * Эмулация пинга. Возаращается true, если запрос был выполнен успешно
-     */
     private suspend fun sendPing(): Boolean {
-        OfflineLogger.log("sendPing start")
-        delay(2000)
-        val success = true // Random.nextBoolean()
-        OfflineLogger.log("sendPing end $success")
+        val success = try {
+            tasksNetworkDataSource.getTasks(0)
+            true
+        } catch (exception: Exception) {
+            !exception.becauseOfBadInternet()
+        }
         return success
     }
 
