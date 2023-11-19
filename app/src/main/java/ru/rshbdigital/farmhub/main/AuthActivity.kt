@@ -13,17 +13,20 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Text
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import ru.rshbdigital.farmhub.client.login.LoginRepository
 import ru.rshbdigital.farmhub.core.design.FarmHubTheme
+import ru.rshbdigital.farmhub.core.design.Typography
 import ru.rshbdigital.farmhub.core.ui.components.AlertDialog
 import ru.rshbdigital.farmhub.core.ui.model.AlertDialogItem
-import ru.rshbdigital.farmhub.core.ui.model.Text
 import timber.log.Timber
 import javax.inject.Inject
+import ru.rshbdigital.farmhub.core.ui.model.Text as TextItem
 
 @AndroidEntryPoint
 class AuthActivity : ComponentActivity() {
@@ -35,10 +38,14 @@ class AuthActivity : ComponentActivity() {
     private var nfcAdapter: NfcAdapter? = null
     private var pendingIntent: PendingIntent? = null
 
+    @Volatile
+    private var showAlertDialog = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         lifecycleScope.launch {
             loginRepository.isAuthorized.collect { isAuthorized ->
+                showAlertDialog = !isAuthorized
                 if (isAuthorized) startMainActivity()
             }
         }
@@ -47,15 +54,23 @@ class AuthActivity : ComponentActivity() {
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
-                        .background(FarmHubTheme.background.get())
+                        .background(FarmHubTheme.background.get()),
+                    contentAlignment = Alignment.Center,
                 ) {
-                    AlertDialog(
-                        dialog = AlertDialogItem(
-                            title = Text.Simple("Авторизация"),
-                            message = Text.Simple("Для начала работы поднесите RFID-карту к устройству"),
-                            isDismissable = false,
-                        ),
+                    Text(
+                        text = "Загружаем данные...",
+                        style = Typography.body1,
+                        color = FarmHubTheme.primary.get().copy(alpha = 0.6f),
                     )
+                    if (showAlertDialog) {
+                        AlertDialog(
+                            dialog = AlertDialogItem(
+                                title = TextItem.Simple("Авторизация"),
+                                message = TextItem.Simple("Для начала работы поднесите RFID-карту к устройству"),
+                                isDismissable = false,
+                            ),
+                        )
+                    }
                 }
             }
         }

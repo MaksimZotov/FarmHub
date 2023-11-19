@@ -90,11 +90,6 @@ class MainActivity : ComponentActivity(), OfflineListener {
                         loginRepository.sendFcmToken(task.result)
                     } catch (e: Exception) {
                         Timber.e(e)
-                        Toast.makeText(
-                            this@MainActivity,
-                            "Что-то пошло не так, попробуйте позже",
-                            Toast.LENGTH_LONG
-                        ).show()
                     }
                 }
             }
