@@ -23,15 +23,12 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import ru.rshbdigital.farmhub.R
 import ru.rshbdigital.farmhub.core.design.FarmHubTheme
 import ru.rshbdigital.farmhub.core.design.Typography
 import ru.rshbdigital.farmhub.core.model.User
-import ru.rshbdigital.farmhub.core.routes.COUNTER_PARAM
 import ru.rshbdigital.farmhub.core.routes.Routes
-import ru.rshbdigital.farmhub.feature.counter.CounterNavRoute
 import ru.rshbdigital.farmhub.feature.requests.RequestsNavRoute
 import ru.rshbdigital.farmhub.feature.tasks.TasksNavRoute
 import ru.rshbdigital.farmhub.main.theme.DimenTokens
@@ -127,7 +124,8 @@ fun AppScreen(
                                             launchSingleTop = true
                                             restoreState = true
                                         }
-                                    }
+                                    },
+                                    enabled = tab == Tab.TASKS
                                 )
                             }
                         }
@@ -141,22 +139,16 @@ fun AppScreen(
                         modifier = Modifier.padding(innerPadding)
                     ) {
                         navigation(
-                            route = Tab.TASKS.route,
-                            startDestination = Routes.TASKS_ROUTE
+                            route = Tab.PROFILE.route,
+                            startDestination = Routes.REQUESTS_ROUTE
                         ) {
-                            TasksNavRoute.composable(this, navController)
+                            RequestsNavRoute.composable(this, navController)
                         }
                         navigation(
                             route = Tab.REPORTS.route,
-                            startDestination = Routes.COUNTER_ROUTE
+                            startDestination = Routes.REQUESTS_ROUTE
                         ) {
-                            CounterNavRoute.composable(
-                                builder = this,
-                                navController = navController,
-                                customNavArguments = listOf(
-                                    navArgument(COUNTER_PARAM) { defaultValue = 0 }
-                                )
-                            )
+                            RequestsNavRoute.composable(this, navController)
                         }
                         navigation(
                             route = Tab.PROFILE.route,
@@ -178,15 +170,8 @@ fun AppScreen(
                         }
                         navigation(
                             route = Tab.PROFILE.route,
-                            startDestination = Routes.COUNTER_ROUTE
+                            startDestination = Routes.REQUESTS_ROUTE
                         ) {
-                            CounterNavRoute.composable(
-                                builder = this,
-                                navController = navController,
-                                customNavArguments = listOf(
-                                    navArgument(COUNTER_PARAM) { defaultValue = 0 }
-                                )
-                            )
                             RequestsNavRoute.composable(this, navController)
                         }
                     }
